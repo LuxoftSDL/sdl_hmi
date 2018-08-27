@@ -69,7 +69,14 @@ SDL.SettingsController = Em.Object.create(
      */
     currentDeviceAllowance: null,
     onState: function(event) {
+      if(SDL.States.currentState.name === 'rpcconfig'){
+        FFW.RPCHelper.setCurrentAppID(null);
+      }
       SDL.States.goToStates('settings.' + event.goToState);
+      if('rpccontrol.rpcconfig' === event.goToState){
+        SDL.RPCControlConfigView.set('appNameLabel.content',event.appName);
+        FFW.RPCHelper.updateRpc(event.appID);
+      }
     },
     onChildState: function(event) {
       SDL.States.goToStates(

@@ -273,9 +273,13 @@ FFW.UI = FFW.RPCObserver.create(
             // this.errorResponsePull[request.id].type + " type. Request was
             // not processed."); this.errorResponsePull[request.id] = null;
             // return; } }
+          resultCode = FFW.RPCHelper.getCustomResultCode(request.params.appID, 'uiSetGlobalProperties');
+          
+          if(FFW.RPCHelper.isSuccessResultCode(resultCode)){
             SDL.SDLModel.setProperties(request.params);
-            this.sendUIResult(
-              SDL.SDLModel.data.resultCode.SUCCESS, request.id, request.method
+          }
+          this.sendUIResult(
+            resultCode, request.id, request.method
             );
             break;
           }
@@ -1621,9 +1625,7 @@ FFW.UI = FFW.RPCObserver.create(
         return;
       }
       Em.Logger.log('FFW.' + method + 'Response');
-      if (resultCode == SDL.SDLModel.data.resultCode.SUCCESS ||
-          resultCode == SDL.SDLModel.data.resultCode.WARNINGS) {
-
+      if (FFW.RPCHelper.isSuccessResultCode(resultCode)) {
         // send repsonse
         var JSONMessage = {
           'jsonrpc': '2.0',
@@ -1635,6 +1637,8 @@ FFW.UI = FFW.RPCObserver.create(
           }
         };
         this.sendMessage(JSONMessage);
+      } else {
+        this.sendError(resultCode, id, method, '');
       }
     },
     /**
