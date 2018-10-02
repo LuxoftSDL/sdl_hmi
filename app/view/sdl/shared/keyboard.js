@@ -50,7 +50,8 @@ SDL.Keyboard = SDL.SDLAbstractView.create(
      *
      * @param {Object}
      */
-    activate: function(element) {
+    activate: function(element, messageRequestId) {
+      this.requestID = messageRequestId;
       if (SDL.SDLController.model?.globalProperties?.keyboardProperties?.maskInputCharacters == 'USER_CHOICE_INPUT_KEY_MASK' 
           && !SDL.KeyboardController.maskCharacters) {
         SDL.KeyboardController.set('maskCharacters', true);
@@ -60,6 +61,7 @@ SDL.Keyboard = SDL.SDLAbstractView.create(
         this.set('active', true);
         SDL.KeyboardController.set('target', element);
       }
+      requestID: 0,
       if (SDL.InteractionChoicesView.appID) {
         SDL.KeyboardController.set('appID', SDL.InteractionChoicesView.appID);
       } else {

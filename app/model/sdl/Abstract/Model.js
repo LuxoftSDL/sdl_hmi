@@ -69,6 +69,11 @@ SDL.SDLModel = Em.Object.extend({
 
   applicationStatusBar: '',
 
+  /**
+   * timeout for VR
+   */
+  timeout: null,
+
   updateStatusBar: function() {
 
     if (this.data.limitedExist &&
@@ -1470,7 +1475,8 @@ SDL.SDLModel = Em.Object.extend({
     }
 
     var appID = message.params.appID;
-
+    var defaultTimeout = 10;
+    SDL.ResetTimeoutPopUp.timeoutSeconds = defaultTimeout;
     setTimeout(function() {
         if (SDL.SDLModel.data.vrActiveRequests.vrPerformInteraction) { // If VR PerformInteraction session is still active
           SDL.SDLModel.onPrompt(message.params.timeoutPrompt);
@@ -1492,23 +1498,7 @@ SDL.SDLModel = Em.Object.extend({
 
       this.data.set('performInteractionSession', message.params.grammarID);
       SDL.SDLModel.data.set('VRActive', true);
-
-      setTimeout(function() {
-            if (SDL.SDLModel.data.VRActive) {
-              if (SDL.SDLModel.data.vrActiveRequests.vrPerformInteraction) {
-                SDL.SDLController.vrInteractionResponse(
-                  SDL.SDLModel.data.resultCode['TIMED_OUT']
-                );
-              } else {
-                console.error(
-                  'SDL.SDLModel.data.vrActiveRequests.vrPerformInteraction is empty!'
-                );
-              }
-
-              SDL.SDLModel.data.set('VRActive', false);
-            }
-          }, message.params.timeout
-        );
+      this.vrTimeout(message.params.timeout);
 
       SDL.InteractionChoicesView.timerUpdate();
     } else {
@@ -1518,7 +1508,40 @@ SDL.SDLModel = Em.Object.extend({
       );
     }
   },
+  
+  /**
+   * deactivateVr function.
+   */
+  deactivateVr: function() {
+    SDL.SDLController.vrInteractionResponse(
+        SDL.SDLModel.data.resultCode['SUCCESS']
+      );
+    SDL.SDLModel.data.set('VRActive', false);
 
+  },
+
+  /**
+   * vrTimeout function
+   */
+  vrTimeout: function(timer) {
+    self = SDL.SDLModel;
+    clearTimeout(self.timeout);
+    self.timeout = setTimeout(function() {
+        if (SDL.SDLModel.data.VRActive) {
+          if (SDL.SDLModel.data.vrActiveRequests.vrPerformInteraction) {
+            SDL.SDLController.vrInteractionResponse(
+              SDL.SDLModel.data.resultCode['TIMED_OUT']
+            );
+          } else {
+            console.error(
+              'SDL.SDLModel.data.vrActiveRequests.vrPerformInteraction is empty!'
+            );
+          }
+          SDL.SDLModel.data.set('VRActive', false);
+        }
+      }, timer - 1000
+    );
+  },
   /**
    * SDL UI Slider response handler show popup window
    *
@@ -1543,8 +1566,8 @@ SDL.SDLModel = Em.Object.extend({
    * @param {Object}
    *            message Object with parameters come from SDLCore
    */
-  uiShowKeyboard: function(element) {
-      SDL.Keyboard.activate(element);
+  uiShowKeyboard: function(element, messageRequestId) {
+      SDL.Keyboard.activate(element, messageRequestId);
     },
 
   /**
@@ -1584,9 +1607,8 @@ SDL.SDLModel = Em.Object.extend({
    * Prompt activation
    *
    * @param {Object} ttsChunks
-   * @param {Number} appID
    */
-  onPrompt: function(ttsChunks, appID) {
+  onPrompt: function(ttsChunks) {
 
     var message = '', files = '';
     if (ttsChunks) {
@@ -1598,7 +1620,8 @@ SDL.SDLModel = Em.Object.extend({
           files += ttsChunks[i].text + '\n';
         }
       }
-      SDL.TTSPopUp.ActivateTTS(message, files, appID);
+      SDL.ResetTimeoutPopUp.play(files);
+      SDL.ResetTimeoutPopUp.setContext(message);
     } else if(FFW.TTS.requestId){
       FFW.TTS.sendError(
        SDL.SDLModel.data.resultCode.WARNINGS,

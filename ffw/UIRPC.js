@@ -155,6 +155,7 @@ FFW.UI = FFW.RPCObserver.create(
      */
     onRPCRequest: function(request) {
       Em.Logger.log('FFW.UI.onRPCRequest');
+      SDL.ResetTimeoutPopUp.requestIDs[request.method] =  request.id;
       if (this.validationCheck(request)) {
         switch (request.method) {
           case 'UI.ShowAppMenu':
@@ -165,7 +166,20 @@ FFW.UI = FFW.RPCObserver.create(
           case 'UI.Alert':
           {
             if (SDL.SDLModel.onUIAlert(request.params, request.id)) {
-              SDL.SDLController.onSystemContextChange(request.params.appID);
+              if(!request.params.softButtons){
+                SDL.ResetTimeoutPopUp.extendResetTimeoutRPCs([request.method]);
+                SDL.ResetTimeoutPopUp.extendResetTimeoutCallBack(SDL.AlertPopUp.setTimerUI , request.method);
+                SDL.ResetTimeoutPopUp.expandCallbacks(function(){
+                  SDL.AlertPopUp.deactivate('timeout');
+                }, request.method);
+                  if(request.params.duration) {
+                    SDL.ResetTimeoutPopUp.set('timeoutSeconds',
+                    {'UI.Alert': request.params.duration/1000,
+                    'TTS.Speak': request.params.duration/1000});
+                  }
+                  
+                }
+              SDL.SDLController.onSystemContextChange(request.params.appID, request.id);
             }
             SDL.SDLModel.data.registeredApps.forEach(app => {
               app.activeWindows.forEach(widget => {
@@ -357,12 +371,32 @@ FFW.UI = FFW.RPCObserver.create(
           case 'UI.PerformInteraction':
           {
             if (SDL.SDLModel.uiPerformInteraction(request)) {
-              SDL.SDLController.onSystemContextChange();
+              SDL.ResetTimeoutPopUp.expandCallbacks(function()
+               {SDL.InteractionChoicesView.deactivate('TIMED_OUT')},request.method);
+              SDL.SDLController.onSystemContextChange(null, request.id);
               SDL.SDLModel.data.registeredApps.forEach(app => {
                 app.activeWindows.forEach(widget => {
                   SDL.SDLController.onSystemContextChange(app.appID, widget.windowID);
                 })
               })
+
+              SDL.ResetTimeoutPopUp.extendResetTimeoutRPCs([request.method]);
+              SDL.ResetTimeoutPopUp.extendResetTimeoutCallBack(SDL.InteractionChoicesView.timerUpdate, request.method);
+              var increase_value = 1;
+              var array = {};
+              if(SDL.SDLModel.data.get('VRActive') == true){
+                array['VR.PerformInteraction'] = request.params.timeout/1000;
+                increase_value = 2;
+              } else {
+                SDL.ResetTimeoutPopUp.resetTimeoutRPCs.removeObject('VR.PerformInteraction');
+              }
+              array['UI.PerformInteraction'] =  request.params.timeout/1000 * increase_value;
+              SDL.ResetTimeoutPopUp.set('timeoutSeconds',array);
+                if(0 < SDL.ResetTimeoutPopUp.resetTimeoutRPCs.length) {
+                  SDL.ResetTimeoutPopUp.resetTimeOutLabel();
+                  SDL.ResetTimeoutPopUp.ActivatePopUp();
+                }
+
             }
             break;
           }
@@ -431,7 +465,17 @@ FFW.UI = FFW.RPCObserver.create(
           case 'UI.Slider':
           {
             if (SDL.SDLModel.uiSlider(request)) {
-              SDL.SDLController.onSystemContextChange();
+              SDL.ResetTimeoutPopUp.extendResetTimeoutRPCs([request.method]);
+              SDL.ResetTimeoutPopUp.expandCallbacks(function(){
+                SDL.SliderView.deactivate(true);
+              }, request.method);
+              SDL.ResetTimeoutPopUp.setContext(request.method);
+              SDL.ResetTimeoutPopUp.extendResetTimeoutCallBack(SDL.SliderView.activate, request.method);
+              SDL.ResetTimeoutPopUp.ActivatePopUp();
+              SDL.ResetTimeoutPopUp.set('timeoutSeconds',
+                {'UI.Slider': request.params.timeout/1000});
+              SDL.ResetTimeoutPopUp.set('timeoutString', request.params.timeout/1000);
+              SDL.SDLController.onSystemContextChange(null, request.id);
               SDL.SDLModel.data.registeredApps.forEach(app => {
                 app.activeWindows.forEach(widget => {
                   SDL.SDLController.onSystemContextChange(app.appID, widget.windowID);
@@ -443,7 +487,18 @@ FFW.UI = FFW.RPCObserver.create(
           case 'UI.ScrollableMessage':
           {
             if (SDL.SDLModel.onSDLScrolableMessage(request, request.id)) {
-              SDL.SDLController.onSystemContextChange();
+              SDL.ResetTimeoutPopUp.extendResetTimeoutRPCs([request.method]);
+              SDL.ResetTimeoutPopUp.setContext(request.method);
+              SDL.ResetTimeoutPopUp.set('timeoutSeconds',
+                {'UI.ScrollableMessage': request.params.timeout/1000});
+              SDL.ResetTimeoutPopUp.set('timeoutString', request.params.timeout/1000);
+              SDL.ResetTimeoutPopUp.expandCallbacks(function(){
+                SDL.ScrollableMessage.deactivate(true);
+              }, request.method);
+
+              SDL.ResetTimeoutPopUp.extendResetTimeoutCallBack(SDL.ScrollableMessage.setTimer, request.method);
+              SDL.ResetTimeoutPopUp.ActivatePopUp();
+              SDL.SDLController.onSystemContextChange(null, request.id);
               SDL.SDLModel.data.registeredApps.forEach(app => {
                 app.activeWindows.forEach(widget => {
                   SDL.SDLController.onSystemContextChange(app.appID, widget.windowID);
@@ -584,7 +639,7 @@ FFW.UI = FFW.RPCObserver.create(
             } else {
               this.performAudioPassThruRequestID = request.id;
               SDL.SDLModel.UIPerformAudioPassThru(request.params);
-              SDL.SDLController.onSystemContextChange();
+              SDL.SDLController.onSystemContextChange(null, request.id);
               SDL.SDLModel.data.registeredApps.forEach(app => {
                 app.activeWindows.forEach(widget => {
                   SDL.SDLController.onSystemContextChange(app.appID, widget.windowID);
@@ -1927,24 +1982,6 @@ FFW.UI = FFW.RPCObserver.create(
           }
         };
       }
-      this.sendMessage(JSONMessage);
-    },
-    /**
-     * Notification method to send touch event data to SDLCore
-     *
-     * @param {Number} appID
-     * @param {String} methodName
-     */
-    onResetTimeout: function(appID, methodName) {
-      Em.Logger.log('FFW.UI.OnResetTimeout');
-      var JSONMessage = {
-        'jsonrpc': '2.0',
-        'method': 'UI.OnResetTimeout',
-        'params': {
-          'methodName': methodName,
-          'appID': appID
-        }
-      };
       this.sendMessage(JSONMessage);
     },
     /**
