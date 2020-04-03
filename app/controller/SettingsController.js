@@ -622,7 +622,17 @@ SDL.SettingsController = Em.Object.create(
       };
       FFW.BasicCommunication.GetPolicyConfigurationData(policyConfigurationData);
     },
-    
+
+    sendVideoStreamingCapabilities: function() {
+      var systemCapability = {
+        'systemCapability' : {
+          'systemCapabilityType': 'VIDEO_STREAMING',
+          'videoStreamingCapability': SDL.systemCapabilities.videoStreamingCapability
+        }
+      };
+      FFW.BasicCommunication.OnSystemCapabilityUpdated(systemCapability);
+    },
+
     /**
      * @function changeGetSystemTimeResultCode
      * @description Change result code of GetSystemTime response to SDL

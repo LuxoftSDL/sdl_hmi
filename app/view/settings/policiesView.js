@@ -147,6 +147,15 @@ SDL.PoliciesView = Em.ContainerView.create(
           {
             type: SDL.Button,
             params: {
+              text: 'Send VIDEO_STREAMING capabilities notification',
+              action: 'sendVideoStreamingCapabilities',
+              target: 'SDL.SettingsController',
+              onDown: false
+            }
+          },
+          {
+            type: SDL.Button,
+            params: {
               text: 'Consent Settings',
               action: 'onState',
               target: 'SDL.SettingsController',
