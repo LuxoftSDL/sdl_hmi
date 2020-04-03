@@ -633,6 +633,22 @@ SDL.SettingsController = Em.Object.create(
       FFW.BasicCommunication.OnSystemCapabilityUpdated(systemCapability);
     },
 
+    saveVideoStreamingCapabilities: function() {
+      SDL.SendVideoStreamingCapsView.videoCapabilitiesCodeEditor.save();
+      this.showVideoStreamingCapabilities();
+    },
+
+    showVideoStreamingCapabilities: function() {
+      let capabilities = SDL.systemCapabilities.videoStreamingCapability;
+      SDL.SendVideoStreamingCapsView.videoCapabilitiesCodeEditor.set('content', JSON.stringify(capabilities, null, 2));
+
+      let that = this;
+      SDL.SendVideoStreamingCapsView.videoCapabilitiesCodeEditor.activate(function(data) {
+        SDL.systemCapabilities.videoStreamingCapability = data;
+        that.sendVideoStreamingCapabilities();
+      });
+    },
+
     /**
      * @function changeGetSystemTimeResultCode
      * @description Change result code of GetSystemTime response to SDL
