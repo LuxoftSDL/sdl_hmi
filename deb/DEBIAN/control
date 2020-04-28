@@ -1,0 +1,12 @@
+Package: sdlhmi
+Version: 6.1.0
+Provides: sdlhmi
+Maintainer: Alexander Kutsan <akutsan@luxoft.com>
+Architecture: all
+Section: devel
+Description: HIM emulator for sdl_core
+ extended description over several lines
+Depends: python
+Recommends: chromium-browser
+Suggests: chromium-browser
+Origin: https://github.com/smartdevicelink/sdl_hmi
