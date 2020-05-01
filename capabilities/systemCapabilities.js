@@ -31,12 +31,12 @@
  * @version 1.0
  */
 
-SDL.systemCapabilities = 
+SDL.systemCapabilities =
 {
     videoStreamingCapability: {
         preferredResolution: {
             resolutionWidth: 800,
-            resolutionHeight: 380
+            resolutionHeight: 480
         },
         maxBitrate: 2147483647,
         supportedFormats: [
