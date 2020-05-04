@@ -6,7 +6,7 @@ Architecture: all
 Section: devel
 Description: HIM emulator for sdl_core
  extended description over several lines
-Depends: python
+Depends: python,chromium-browser
 Recommends: chromium-browser
 Suggests: chromium-browser
 Origin: https://github.com/smartdevicelink/sdl_hmi
