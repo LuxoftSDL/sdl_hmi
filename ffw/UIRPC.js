@@ -207,7 +207,7 @@ FFW.UI = FFW.RPCObserver.create(
                   this.sendError(SDL.SDLModel.data.resultCode['UNSUPPORTED_RESOURCE'], 
                                 request.id, 
                                 request.method, 
-                                'Image of STATIC type is not supported on HMI. Request was not displayed');
+                                'Image of STATIC type is not supported on HMI. Request was not processed');
                   return;
                 }
 
