@@ -49,9 +49,9 @@ SDL.NavigationController = Em.Object.create(
      * @param {Object} request
      */
     sendLocation: function(request) {
-      this.model.get('LocationDetails').addObject(
+      this.model.LocationDetails.pushObject(
         {
-          coordinate: { 
+          coordinate: {
             latitudeDegrees: request.params.latitudeDegrees,
             longitudeDegrees: request.params.longitudeDegrees 
           },
