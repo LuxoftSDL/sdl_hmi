@@ -1021,7 +1021,10 @@ SDL.SDLController = Em.Object.extend(
       }
       if (app.webEngineApp && app.policyAppID in SDL.SDLModel.webApplicationFramesMap) {
         let frame = SDL.SDLModel.webApplicationFramesMap[app.policyAppID];
-        document.body.removeChild(frame);
+        const web_engine_view = document.getElementById("webEngineView");
+        if (web_engine_view) {
+          web_engine_view.removeChild(frame);
+        }
         delete SDL.SDLModel.webApplicationFramesMap[app.policyAppID];
       }
     },
@@ -1188,6 +1191,9 @@ SDL.SDLController = Em.Object.extend(
           }
 
           SDL.InfoController.getWebAppEntryPointPath(model.policyAppID, callback);
+        } else if (model.webEngineApp !== true && model.appType.indexOf('TESTING') >= 0) {
+          SDL.PopUp.create().appendTo('body')
+            .popupActivate("Only Web Engine apps with app type WEB_VIEW can be activated!");
         } else {
           FFW.BasicCommunication.ActivateApp(element.appID);
         }
@@ -1500,8 +1506,16 @@ SDL.SDLController = Em.Object.extend(
         windowCapability["systemCapability"]["displayCapabilities"][0]["windowCapabilities"][0]["windowID"] = windowID;
       }
       if(appID) {
+        var appModel = this.getApplicationModel(appID);
+        if (appModel && appModel.appType.indexOf('TESTING') >= 0 && windowType == "MAIN") {
+          delete windowCapability["systemCapability"]["displayCapabilities"][0]["windowCapabilities"][0]["textFields"];
+          delete windowCapability["systemCapability"]["displayCapabilities"][0]["windowCapabilities"][0]["imageFields"];
+          windowCapability["systemCapability"]["displayCapabilities"][0]["windowCapabilities"][0]["templatesAvailable"].push("WEB_VIEW");
+        }
+
         windowCapability["appID"] = appID;
       }
+
       return windowCapability;
     },
     /**
