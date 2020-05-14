@@ -53,14 +53,14 @@ SDL.NavigationController = Em.Object.create(
         {
           coordinate: {
             latitudeDegrees: request.params.latitudeDegrees,
-            longitudeDegrees: request.params.longitudeDegrees 
+            longitudeDegrees: request.params.longitudeDegrees
           },
           locationName: request.params.locationName,
           addressLines: request.params.addressLines,
           locationDescription: request.params.locationDescription,
           phoneNumber: request.params.phoneNumber,
           locationImage: request.params.locationImage,
-          searchAddress: request.params.address 
+          searchAddress: request.params.address
         }
       );
       FFW.Navigation.sendNavigationResult(
