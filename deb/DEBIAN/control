@@ -1,7 +1,7 @@
 Package: sdlhmi
 Version: 6.1.0
 Provides: sdlhmi
-Maintainer: Alexander Kutsan <akutsan@luxoft.com>
+Maintainer: Luxoft <github.com/LuxoftSDL/sdl_hmi/>
 Architecture: all
 Section: devel
 Description: HIM emulator for sdl_core
