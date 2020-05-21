@@ -1549,5 +1549,20 @@ SDL.SDLController = Em.Object.extend(
       }
       return title;
     },
+
+    imageModeChanged: function() { 
+      if (SDL.SDLController.model) {
+        SDL.SDLController.model.setMode(SDL.SDLModel.data.imageMode);
+        length=SDL.OptionsView.commands.items.length;
+        var commands = SDL.SDLController.model.get('currentCommandsList');
+        for(var i=0;i<length;i++){
+          SDL.OptionsView.commands.items[i].type.prototype.setMode(SDL.SDLModel.data.imageMode);
+          if(commands[i].isTemplate){
+          SDL.OptionsView.commands.items[i].type.prototype.setMode(SDL.SDLModel.data.imageMode);
+          }
+        }
+        SDL.OptionsView.commands.refreshItems();
+      }
+    }.observes('SDL.SDLModel.data.imageMode')
   }
 );
