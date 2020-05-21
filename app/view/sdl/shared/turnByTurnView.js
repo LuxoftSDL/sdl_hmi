@@ -247,6 +247,11 @@ SDL.TurnByTurnView = SDL.SDLAbstractView.create(
           }
         )
       }
-    )
+    ),
+
+    imageModeChanged: function() { 
+      SDL.TurnByTurnView.nextTurnIconImage.setMode(SDL.SDLModel.data.imageMode);
+      SDL.TurnByTurnView.turnIconImage.setMode(SDL.SDLModel.data.imageMode);
+    }.observes('SDL.SDLModel.data.imageMode')
   }
 );
