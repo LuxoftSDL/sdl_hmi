@@ -112,6 +112,11 @@ SDL.NavigationView = Em.ContainerView.create(
         action: 'setRoutes',
         target: 'SDL.NavigationController'
       }
-    )
+    ),
+
+    imageModeChanged: function() { 
+      SDL.NavigationView.POIButton.setMode(SDL.SDLModel.data.imageMode);
+      SDL.NavigationView.navigate.setMode(SDL.SDLModel.data.imageMode);
+    }.observes('SDL.SDLModel.data.imageMode')
   }
 );
