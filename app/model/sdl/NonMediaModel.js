@@ -273,6 +273,22 @@ SDL.SDLNonMediaModel = SDL.ABSAppModel.extend({
   sdlSetMediaClockTimer: function() {
 
     return;
-  }
+  },
+
+    /**
+     * @description Method applies image mode view for model.
+     * @param {Number}
+     */
+  setMode:function(mode){
+    if(this.isTemplate){
+      switch(mode){
+        case SDL.SDLModel.data.imageModeList[0]:this.set('mode','day-mode');break;
+        case SDL.SDLModel.data.imageModeList[1]:this.set('mode','night-mode');break;
+        case SDL.SDLModel.data.imageModeList[2]:this.set('mode','high-lighted-mode');break;
+        default:this.set('mode','');
+      }
+    }
+    else this.set('mode','');
+  },
 }
 );
