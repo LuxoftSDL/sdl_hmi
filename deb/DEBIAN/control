@@ -3,7 +3,7 @@ Version: 6.1.0
 Provides: sdlhmi
 Maintainer: Luxoft <sdl@luxoft.com>
 Architecture: all
-Section: devel
+Section: develop
 Description: HIM emulator for sdl_core
  extended description over several lines
 Depends: python,chromium-browser|chromium
