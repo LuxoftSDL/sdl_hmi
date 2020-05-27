@@ -57,6 +57,7 @@ SDL.SettingsView = Em.ContainerView.create(
       SDL.InteriorLightView,
       SDL.ExteriorLightView,
       SDL.SeatView,
+      SDL.ObsshView,
       SDL.PolicyConfigListView
     ],
     /** Left menu */
@@ -83,7 +84,8 @@ SDL.SettingsView = Em.ContainerView.create(
               'policies',
               'HMISettings',
               'light',
-              'seat'
+              'seat',
+              'obssh'
             ],
             policies: SDL.Button.extend(
               {
@@ -133,6 +135,18 @@ SDL.SettingsView = Em.ContainerView.create(
               text: 'Seat',
               icon: 'images/settings/ico_settings.png',
               action: 'turnOnSeat',
+              target: 'SDL.SettingsController'
+            }),
+            obssh: SDL.Button.extend({
+              elementId: 'obssh_leftMenu',
+              goToState: 'obssh',
+              classNames: 'menu-item lsp1_p',
+              classNameBindings: [
+                'SDL.States.settings.obssh.active:info_active',
+              ],
+              text: 'OBSSH',
+              icon: 'images/settings/ico_settings.png',
+              action: 'turnOnObssh',
               target: 'SDL.SettingsController'
             })
           }
