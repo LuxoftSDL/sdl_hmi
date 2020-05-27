@@ -40,7 +40,8 @@ SDL.initialRemoteControlCapabilities =
         audioControlCapabilities: [],
         seatControlCapabilities: [],
         lightControlCapabilities: {},
-        hmiSettingsControlCapabilities: {}
+        hmiSettingsControlCapabilities: {},
+        obsshControlCapabilities: []
     },
     seatLocationCapability: {
         columns: 0,

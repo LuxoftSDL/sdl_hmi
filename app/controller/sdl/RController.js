@@ -510,6 +510,8 @@ SDL.RController = SDL.SDLController.extend(
         module = 'Light';
       }else if (request.params.moduleType == 'HMI_SETTINGS') {
         module = 'HMI settings';
+      }else if (request.params.moduleType == 'OBSSH') {
+        module = 'OBSSH';
       }
       var moduleIds = request.params.moduleIds;
       var allowed = [];

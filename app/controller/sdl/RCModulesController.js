@@ -42,7 +42,8 @@ SDL.RCModulesController = Em.Object.create({
       CLIMATE: 'climateModels',
       SEAT: 'seatModels',
       LIGHT: 'lightModels',
-      HMI_SETTINGS: 'hmiSettingsModels'
+      HMI_SETTINGS: 'hmiSettingsModels',
+      OBSSH: 'obssh'
     },
 
     /**
@@ -80,6 +81,8 @@ SDL.RCModulesController = Em.Object.create({
      * @type {Map}
      */
     lightModels: {},
+
+    obsshModels: {},
 
     /**
      * @description Mapping of module types and internal mapping of module
@@ -137,6 +140,9 @@ SDL.RCModulesController = Em.Object.create({
      */
     currentLightModel: null,
 
+
+    currentObsshModel: null, 
+
     /**
      * @function init
      * @description Function for controller initialization
@@ -149,6 +155,7 @@ SDL.RCModulesController = Em.Object.create({
         this.set('currentRadioModel', SDL.RadioModel.create());
         this.set('currentHMISettingsModel', SDL.HmiSettingsModel.create());
         this.set('currentLightModel', SDL.LightModel.create());
+        this.set('currentObsshModel', SDL.ObsshModel.create());
     },
 
     /**
@@ -294,6 +301,7 @@ SDL.RCModulesController = Em.Object.create({
           this.set('audioModels.' + emulationType, this.currentAudioModel);
           this.set('lightModels.' + emulationType, this.currentLightModel);
           this.set('hmiSettingsModels.' + emulationType, this.currentHMISettingsModel);
+          this.set('obsshModels.' + emulationType, this.currentObsshModel);
 
           this.currentClimateModel.generateClimateCapabilities();
           this.currentAudioModel.generateAudioCapabilities();
@@ -302,6 +310,7 @@ SDL.RCModulesController = Em.Object.create({
           this.currentSeatModel.generateSeatCapabilities();
           this.currentHMISettingsModel.generateHMISettingsCapabilities();
           this.currentRadioModel.generateRadioControlCapabilities();
+          this.currentObsshModel.generateObsshControlCapabilities();
           delete SDL.remoteControlCapabilities.seatLocationCapability;
           SDL.remoteControlCapabilities.remoteControlCapability['buttonCapabilities'] = SDL.defaultButtonCapabilities;
           this.fillModuleSeatLocationContent([]);
@@ -847,6 +856,21 @@ SDL.RCModulesController = Em.Object.create({
                     dataToReturn.seatControlData = seatControlData;
                 }
             }
+          case 'OBSSH':
+            {
+              if(location_name in this.obsshModels) {
+                  var obsshControlData = this.obsshModels[location_name].setObsshControlData(data.params.moduleData.obsshControlData);
+
+                  if(obsshControlData) {
+                    if (Object.keys(obsshControlData).length > 0) {
+                      FFW.RC.onInteriorVehicleDataNotification({moduleType:'OBSSH', moduleId: moduleUUId,
+                        obsshControlData: obsshControlData});
+                    }
+                    dataToReturn.obsshControlData = obsshControlData;
+                  }
+                }
+              break;
+            }
         }
         return dataToReturn;
     },
@@ -898,6 +922,10 @@ SDL.RCModulesController = Em.Object.create({
           case 'SEAT':{
             dataToReturn.seatControlData = this.seatModels[location_name].getSeatControlData(false);
             break
+          }
+          case 'OBSSH': {
+            dataToReturn.obsshControlData = this.obsshModels[location_name].getObsshControlData();
+            break;
           }
         }
         return dataToReturn;

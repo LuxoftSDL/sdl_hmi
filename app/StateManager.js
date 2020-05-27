@@ -251,6 +251,13 @@ var StateManager = Em.StateManager.extend(
         }),
 
         seat: Em.State.create({}),
+        obssh: Em.State.create({
+          modelBinding: 'SDL.RCModulesController',
+          exit: function() {
+                  this.model.currentObsshModel.restoreAppliedSettings();
+                  this._super();
+                }
+        })
       }
     ),
     /** Media state */

@@ -594,6 +594,14 @@ SDL.SettingsController = Em.Object.create(
     },
 
     /**
+     * @function turnOnTrailerCheck
+     * @description Callback function for 'TLC' button in settings view
+     */
+    turnOnObssh: function () {
+      SDL.States.goToStates('settings.obssh');
+    },
+
+    /**
      * @function sendGetPolicyConfigurationDataRequest
      * @description send GetPolicyConfigurationData request from HMI by user action
      */
