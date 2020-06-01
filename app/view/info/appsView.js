@@ -174,6 +174,9 @@ SDL.InfoAppsView = Em.ContainerView.create({
   }
 ),
 
+  /**
+   * @description Callback for display image mode change.
+   */
   imageModeChanged: function() { 
     SDL.InfoAppsView.findNewApps.setMode(SDL.SDLModel.data.imageMode);
     SDL.InfoAppsView.Asist911.setMode(SDL.SDLModel.data.imageMode);
