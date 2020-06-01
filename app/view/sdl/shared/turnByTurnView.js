@@ -249,6 +249,9 @@ SDL.TurnByTurnView = SDL.SDLAbstractView.create(
       }
     ),
 
+    /**
+     * @description Callback for display image mode change.
+     */
     imageModeChanged: function() { 
       SDL.TurnByTurnView.nextTurnIconImage.setMode(SDL.SDLModel.data.imageMode);
       SDL.TurnByTurnView.turnIconImage.setMode(SDL.SDLModel.data.imageMode);
