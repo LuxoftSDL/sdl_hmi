@@ -166,12 +166,11 @@ SDL.List = Em.ContainerView.extend({
                   this.set('dayMode',false);
                   this.set('nightMode',false);
                   this.set('highLightedMode',false);
-                  switch(mode){
-                    case SDL.SDLModel.data.imageModeList[0]:this.set('dayMode',true);break;
-                    case SDL.SDLModel.data.imageModeList[1]:this.set('nightMode',true);break;
-                    case SDL.SDLModel.data.imageModeList[2]:this.set('highLightedMode',true);break;
-                    default:this.set('dayMode',true);
-                  }
+
+                  mode = SDL.SDLModel.data.imageModeList.includes(mode) ? mode : SDL.SDLModel.data.imageModeList[0];
+                  this.set('dayMode', mode == SDL.SDLModel.data.imageModeList[0]);
+                  this.set('nightMode', mode == SDL.SDLModel.data.imageModeList[1]);
+                  this.set('highLightedMode', mode == SDL.SDLModel.data.imageModeList[2]);
                 },
                 
                 imageModeDidChange: function() {
