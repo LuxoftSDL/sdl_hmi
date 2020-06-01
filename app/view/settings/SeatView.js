@@ -975,7 +975,7 @@ SDL.SeatView = Em.ContainerView.create({
                   break;
                 }
               }
-              if(location_name === '') {
+              if(location_name != '') {
                 SDL.RCModulesController.set('currentSeatModel', SDL.RCModulesController.getCoveringModuleModel('SEAT', location_name));
                 SDL.RCModulesController.currentSeatModel.updateView();
               }
