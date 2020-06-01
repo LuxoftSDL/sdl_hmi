@@ -967,7 +967,6 @@ SDL.SeatView = Em.ContainerView.create({
             elementId: 'seatModelCurrent',
             classNames: 'seatModelCurrent',
             change: function() {
-              console.log('CHANGE!')
               var desiredUUID = this.selection;
               var location_name = '';
               for(var key in SDL.RCModulesController.seatModels) {
@@ -976,8 +975,10 @@ SDL.SeatView = Em.ContainerView.create({
                   break;
                 }
               }
-              SDL.RCModulesController.set('currentSeatModel', SDL.RCModulesController.getCoveringModuleModel('SEAT', location_name));
-              SDL.RCModulesController.currentSeatModel.updateView();
+              if(location_name === '') {
+                SDL.RCModulesController.set('currentSeatModel', SDL.RCModulesController.getCoveringModuleModel('SEAT', location_name));
+                SDL.RCModulesController.currentSeatModel.updateView();
+              }
             }
         })
     }),
