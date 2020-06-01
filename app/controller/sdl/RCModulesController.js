@@ -44,7 +44,6 @@ SDL.RCModulesController = Em.Object.create({
       LIGHT: 'lightModels',
       HMI_SETTINGS: 'hmiSettingsModels'
     },
-    
     /**
      * @description Mapping of module seats and audio data models
      * @type {Map}
