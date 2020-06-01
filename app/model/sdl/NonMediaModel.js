@@ -275,20 +275,31 @@ SDL.SDLNonMediaModel = SDL.ABSAppModel.extend({
     return;
   },
 
+  classNameBindings: [
+    'dayMode',
+    'nightMode',
+    'highLightedMode'
+  ],
+
+  dayMode:false,
+  nightMode:false,
+  highLightedMode:false,
+
     /**
      * @description Method applies image mode view for model.
      * @param {Number}
      */
   setMode:function(mode){
     if(this.isTemplate){
-      switch(mode){
-        case SDL.SDLModel.data.imageModeList[0]:this.set('mode','day-mode');break;
-        case SDL.SDLModel.data.imageModeList[1]:this.set('mode','night-mode');break;
-        case SDL.SDLModel.data.imageModeList[2]:this.set('mode','high-lighted-mode');break;
-        default:this.set('mode','');
-      }
+      this.set('dayMode',false);
+      this.set('nightMode',false);
+      this.set('highLightedMode',false);
+
+      mode = SDL.SDLModel.data.imageModeList.includes(mode) ? mode : SDL.SDLModel.data.imageModeList[0];
+      this.set('dayMode', mode == SDL.SDLModel.data.imageModeList[0]);
+      this.set('nightMode', mode == SDL.SDLModel.data.imageModeList[1]);
+      this.set('highLightedMode', mode == SDL.SDLModel.data.imageModeList[2]);
     }
-    else this.set('mode','');
   },
 }
 );
