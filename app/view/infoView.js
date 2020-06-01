@@ -178,6 +178,9 @@ SDL.InfoView = Em.ContainerView.create(
               }
             ),
 
+            /**
+             * @description Callback for display image mode change.
+             */
             imageModeChanged: function() { 
               SDL.InfoView.leftMenu.items.servicesButton.setMode(SDL.SDLModel.data.imageMode);
               SDL.InfoView.leftMenu.items.appsButton.setMode(SDL.SDLModel.data.imageMode);
