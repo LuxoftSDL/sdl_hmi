@@ -291,10 +291,6 @@ SDL.SDLNonMediaModel = SDL.ABSAppModel.extend({
      */
   setMode:function(mode){
     if(this.isTemplate){
-      this.set('dayMode',false);
-      this.set('nightMode',false);
-      this.set('highLightedMode',false);
-
       mode = SDL.SDLModel.data.imageModeList.includes(mode) ? mode : SDL.SDLModel.data.imageModeList[0];
       this.set('dayMode', mode == SDL.SDLModel.data.imageModeList[0]);
       this.set('nightMode', mode == SDL.SDLModel.data.imageModeList[1]);
