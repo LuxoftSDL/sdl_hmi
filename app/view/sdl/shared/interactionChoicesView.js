@@ -414,6 +414,9 @@ SDL.InteractionChoicesView = SDL.SDLAbstractView.create(
       );
     },
 
+    /**
+     * @description Callback for display image mode change.
+     */
     imageModeChanged: function() { 
       SDL.InteractionChoicesView.set('imageMode',SDL.SDLModel.data.imageMode);
       SDL.InteractionChoicesView.updateIcons();
