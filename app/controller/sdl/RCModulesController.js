@@ -45,11 +45,11 @@ SDL.RCModulesController = Em.Object.create({
       HMI_SETTINGS: 'hmiSettingsModels'
     },
     
-    /** 
+    /**
      * @description List of available UUIDs for SEAT module.
      * @type {List}
      */
-    seatUUIDs: [],
+    // seatUUIDs: [],
 
     /**
      * @description Mapping of module seats and audio data models
