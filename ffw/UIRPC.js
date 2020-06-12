@@ -224,6 +224,14 @@ FFW.UI = FFW.RPCObserver.create(
             if("templateConfiguration" in request.params) {
               if (model.templateConfiguration.template !== request.params.templateConfiguration.template) {
                 model.templateConfiguration.template = request.params.templateConfiguration.template;
+
+                if (model.active) {
+                  SDL.SDLModel.data.templateChangeInProgress = true;
+                  SDL.States.goToStates('info.apps');
+                  model.turnOnSDL();
+                  SDL.SDLModel.data.templateChangeInProgress = false;
+                }
+
                 sendCapabilityUpdated = true;
               }
               if ("dayColorScheme" in  request.params.templateConfiguration
@@ -466,14 +474,14 @@ FFW.UI = FFW.RPCObserver.create(
               case 'MEDIA':
               case 'NON-MEDIA':
               case 'DEFAULT':
-              case 'ONSCREEN_PRESETS':
               case 'NAV_FULLSCREEN_MAP':
+              case 'WEB_VIEW':
               {
                 sendResponseFlag = true;
                 break;
               }
             }
-            var model = SDL.SDLController.getApplicationModel(request.params.appID);
+
             if (sendResponseFlag) {
               Em.Logger.log('FFW.' + request.method + 'Response');
               var displayLayout = request.params.displayLayout;
@@ -515,6 +523,14 @@ FFW.UI = FFW.RPCObserver.create(
               let sendCapabilityUpdated = false;
               if ("displayLayout" in request.params && model.templateConfiguration.template !== request.params.displayLayout) {
                 model.templateConfiguration.template = request.params.displayLayout
+
+                if (model.active) {
+                  SDL.SDLModel.data.templateChangeInProgress = true;
+                  SDL.States.goToStates('info.apps');
+                  model.turnOnSDL();
+                  SDL.SDLModel.data.templateChangeInProgress = false;
+                }
+
                 sendCapabilityUpdated = true;
               }
               if ("dayColorScheme" in request.params
