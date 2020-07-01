@@ -90,9 +90,9 @@ FFW.RPCHelper = Em.Object.create(
       }
 
       var code = null;
-      if(appID !== null && this.appContainer[appID][method] !== undefined) {
+      if(appID && this.appContainer.hasOwnProperty(appID) && this.appContainer[appID][method]) {
         code = this.appContainer[appID][method];
-      } else if(this.vehicleDataStruct[method] !== undefined) {
+      } else if(this.vehicleDataStruct[method]) {
         code = this.vehicleDataStruct[method];
       }
 
