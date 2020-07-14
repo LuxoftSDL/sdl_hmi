@@ -29,7 +29,6 @@ A quick guide to installing, configuring, and running HMI.
 	2. run chromium-browser [root_of_cloned_sdl_hmi_repo/index.html]
 
 ## Simulating signals for LOW_VOLTAGE feature
-I
 	* Open the `Exit Application` menu, choose a signal from the menu and press `Send signal`
 
 ## PTU With vehicle modem
