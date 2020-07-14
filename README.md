@@ -37,7 +37,7 @@ I
     * Select the `PTU using in-vehicle modem` checkbox to enable the feature
 
 ## Show navi/projection streaming
- * Configure SDL ini file : `NamedVideoPipePath = video_stream_pipe`
+ * Configure SDL ini file : `VideoStreamConsumer = pipe`
   
 ## Note
 SDL HMI utility is only for acquaintance with the SDL project.
