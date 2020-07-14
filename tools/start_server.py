@@ -223,7 +223,7 @@ def handle_get_app_manifest_message(params):
 
 
 def handle_start_streaming_adapter(params):
-	print("-->Handle start gstreamer adapter\r")
+	print("-->Handle start ffmpeg adapter\r")
 	stream_endpoint = "http://localhost:8085"
 	ffmpeg_process = ffmpeg.input(params['url']).output(stream_endpoint, vcodec="vp8", format="webm", listen=1, multiple_requests=1).run_async(pipe_stderr=True) 
 	print("Wait for data from SDL")
