@@ -558,7 +558,8 @@ SDL.InfoController = Em.Object.create(
         }, 10000);
 
         let response_callback = function(params) {
-          Em.Logger.log('StreamingAdapter response');
+          Em.Logger.log('StartStreamingAdapter response');
+
           clearTimeout(response_timer);
           client.unsubscribeFromEvent('StartStreamingAdapter');
 
