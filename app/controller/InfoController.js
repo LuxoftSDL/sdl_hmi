@@ -552,7 +552,8 @@ SDL.InfoController = Em.Object.create(
         let client = FFW.RPCSimpleClient;
 
         let response_timer = setTimeout(function() {
-          Em.Logger.log('startVideoStreamingAdapter timout');
+          Em.Logger.log('StartStreamingAdapter timeout');
+
           client.unsubscribeFromEvent('StartStreamingAdapter');
           reject();
         }, 10000);
