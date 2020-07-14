@@ -229,7 +229,7 @@ def handle_start_streaming_adapter(params):
 	print("Wait for data from SDL")
 	o = pexpect.fdpexpect.fdspawn(ffmpeg_process.stderr.fileno())
 	o.expect("Input")
-	print("data from SDL available")
+	print("Data from SDL is available")
 	response_msg = {
 		"method": "StartStreamingAdapter",
 		"params": {
