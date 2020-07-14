@@ -668,7 +668,7 @@ SDL.SDLModel = Em.Object.extend({
         ).navigationStream;
 
         SDL.InfoController.startStreamingAdapter(sdl_stream).then(function(stream_endpoint) {
-          console.log('Adapter promice callback');
+          console.log('Starting video playback');
           SDL.SDLModel.data.naviVideo.src = stream_endpoint
           var playPromise = SDL.SDLModel.data.naviVideo.play();
           if (playPromise !== undefined) {
