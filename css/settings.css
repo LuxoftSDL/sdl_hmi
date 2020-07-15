@@ -136,6 +136,19 @@
     left: 175px !important;
 }
 
+#policies_settings_sendVideoStreamingCapsView #videoCapabilitiesCodeEditor {
+    width: 545px !important;
+    height: 270px !important;
+    top: 95px !important;
+}
+
+#policies_settings_sendVideoStreamingCapsView #sendNotificationButton {
+    left: 658px;
+    top: 210px;
+    width: 130px;
+    text-align: center;
+}
+
 #settingsView .backButton .ico {
     margin-top: 13px;
     margin-left: 8px;
