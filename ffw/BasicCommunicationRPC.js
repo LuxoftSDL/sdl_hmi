@@ -61,7 +61,7 @@ FFW.BasicCommunication = FFW.RPCObserver
       onSystemCapabilityUpdatedNotificationSubscribeRequestID: -1,
       onAppPropertiesChangeNotificationSubscribeRequestID: -1,
       onAppServiceDataNotificationSubscribeRequestID: -1,
-      onAppCapabilityUpdatedSubscribeRequestID: -1;
+      onAppCapabilityUpdatedSubscribeRequestID: -1,
       onPutFileUnsubscribeRequestID: -1,
       onStatusUpdateUnsubscribeRequestID: -1,
       onAppPermissionChangedUnsubscribeRequestID: -1,

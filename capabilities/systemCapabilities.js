@@ -106,7 +106,7 @@ SDL.systemCapabilities =
                     resolutionHeight: 240
                 },
                 hapticSpatialDataSupported: true
-            }.
+            },
             {
                 hapticSpatialDataSupported: true,
                 scale: 1.5
