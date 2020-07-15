@@ -45,6 +45,8 @@ import pexpect.fdpexpect
 
 WEBSOCKET_PORT = 8081
 FILESERVER_PORT = 8082
+HTML5_STREAMING_HOST = "http://localhost"
+HTML5_STREAMING_PORT = 8085
 
 class HTTPHandler(SimpleHTTPRequestHandler):
     """This handler uses server.base_path instead of always using os.getcwd()"""
@@ -224,7 +226,16 @@ def handle_get_app_manifest_message(params):
 
 def handle_start_streaming_adapter(params):
 	print("-->Handle start ffmpeg adapter\r")
-	stream_endpoint = "http://localhost:8085"
+	stream_endpoint = "{}:{}".format(HTML5_STREAMING_HOST,HTML5_STREAMING_PORT)
+	if 'url' not in params :
+		print("'url' parameter missing")
+		response_msg = {
+			"method": "StartStreamingAdapter",
+			"params": {
+				"success": False,
+			}
+		}
+		return json.dumps(response_msg)
 	ffmpeg_process = ffmpeg.input(params['url']).output(stream_endpoint, vcodec="vp8", format="webm", listen=1, multiple_requests=1).run_async(pipe_stderr=True) 
 	print("Wait for data from SDL")
 	o = pexpect.fdpexpect.fdspawn(ffmpeg_process.stderr.fileno())

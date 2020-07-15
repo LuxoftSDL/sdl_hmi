@@ -546,7 +546,11 @@ SDL.InfoController = Em.Object.create(
         );
     },
 
-    
+    /**
+     * @description Start converting streaming from SDL to the HTML5 video
+     * @param {String} url SDL streaming path (pipe or socket)
+     * @return {Promise} promice that resolves streaming URL with HTML5 video  
+     */
     startStreamingAdapter: function(url) {
       return new Promise( (resolve, reject) => {
         let client = FFW.RPCSimpleClient;
