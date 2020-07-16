@@ -122,6 +122,7 @@ SDL.SDLModel = Em.Object.extend({
       return;
     }
 
+
     var type = '',
       changedTouches = event.originalEvent.changedTouches ?
         event.originalEvent.changedTouches.length : 1;
@@ -168,17 +169,27 @@ SDL.SDLModel = Em.Object.extend({
           return;
         }
 
+        var active_app_id = SDL.SDLController.model.appID
+        var app_model = SDL.SDLController.getApplicationModel(active_app_id)
+            
+        var video_width = SDL.SDLController.getApplicationModel(active_app_id).VideoConfigWidth
+        var video_height = SDL.SDLController.getApplicationModel(active_app_id).VideoConfigHeight
+
+        var marging_left = ((800 - video_width) / 2) 
+        var marging_top = ((480 - video_height) / 2) + 50
+
+
         events[i] = {};
         events[i].c = [{}];
 
         events[i].id = event.originalEvent.changedTouches ?
           event.originalEvent.changedTouches[i].identifier : 0;
         events[i].c[0].x = event.originalEvent.changedTouches ?
-          event.originalEvent.changedTouches[i].pageX :
-          event.originalEvent.pageX;
+          event.originalEvent.changedTouches[i].pageX - marging_left:
+          event.originalEvent.pageX - marging_left;
         events[i].c[0].y = event.originalEvent.changedTouches ?
-          event.originalEvent.changedTouches[i].pageY-50 :
-          event.originalEvent.pageY-50;
+          event.originalEvent.changedTouches[i].pageY - marging_top :
+          event.originalEvent.pageY - marging_top;
         events[i].ts = [parseInt(event.timeStamp)];
 
       }
@@ -666,7 +677,24 @@ SDL.SDLModel = Em.Object.extend({
         var sdl_stream = SDL.SDLController.getApplicationModel(
           appID
         ).navigationStream;
+        
+        console.log(' set params from VideoConfig');
+        
+        var app_model = SDL.SDLController.getApplicationModel(appID)
+        console.log("playVideo app_model", app_model)
+            
 
+        var width = SDL.SDLController.getApplicationModel(appID).VideoConfigWidth
+        var height = SDL.SDLController.getApplicationModel(appID).VideoConfigHeight 
+        
+        var marging_left = ((800 - width) / 2) 
+        var marging_top = ((400 - height) / 2) 
+        
+        SDL.SDLModel.data.naviVideo.style.setProperty("width",width + "px")
+        SDL.SDLModel.data.naviVideo.style.setProperty("height",height + "px")
+        SDL.SDLModel.data.naviVideo.style.setProperty("margin-left",marging_left + "px")
+        SDL.SDLModel.data.naviVideo.style.setProperty("margin-top",marging_top + "px")
+        
         SDL.InfoController.startStreamingAdapter(sdl_stream).then(function(stream_endpoint) {
           console.log('Starting video playback');
           SDL.SDLModel.data.naviVideo.src = stream_endpoint

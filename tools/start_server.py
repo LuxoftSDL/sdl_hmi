@@ -41,7 +41,7 @@ import zipfile
 import ffmpeg
 import threading
 import pexpect.fdpexpect
-import io
+import sys
 
 WEBSOCKET_PORT = 8081
 FILESERVER_PORT = 8082
@@ -238,10 +238,9 @@ def handle_start_streaming_adapter(params):
 		return json.dumps(response_msg)
 	ffmpeg_process = ffmpeg.input(params['url']).output(stream_endpoint, vcodec="vp8", format="webm", listen=1, multiple_requests=1).run_async(pipe_stderr=True) 
 	print("Wait for data from SDL")
-	ffmpeg_output = io.BytesIO()
-	o = pexpect.fdpexpect.fdspawn(ffmpeg_process.stderr.fileno(), logfile=ffmpeg_output)
+
+	o = pexpect.fdpexpect.fdspawn(ffmpeg_process.stderr.fileno(), logfile=sys.stdout.buffer)
 	o.expect("Input")
-	print(ffmpeg_output.read())
 	print("Data from SDL is available")
 	response_msg = {
 		"method": "StartStreamingAdapter",
