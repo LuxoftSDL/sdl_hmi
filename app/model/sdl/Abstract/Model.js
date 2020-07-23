@@ -133,7 +133,6 @@ SDL.SDLModel = Em.Object.extend({
       return;
     }
 
-
     var type = '',
       changedTouches = event.originalEvent.changedTouches ?
         event.originalEvent.changedTouches.length : 1;
