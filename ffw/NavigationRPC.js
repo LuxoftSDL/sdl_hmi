@@ -416,6 +416,12 @@ FFW.Navigation = FFW.RPCObserver.create(
           }
           case 'Navigation.SetVideoConfig':
           {
+              var app_model = SDL.SDLController.getApplicationModel(request.params.appID);
+              if(!app_model) {
+                break;
+              }
+              app_model.VideoConfigWidth = request.params.config.width;
+              app_model.VideoConfigHeight = request.params.config.height;
               this.sendNavigationResult(
                 SDL.SDLModel.data.resultCode.SUCCESS,
                 request.id,
