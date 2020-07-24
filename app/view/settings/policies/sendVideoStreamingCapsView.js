@@ -35,6 +35,7 @@ SDL.SendVideoStreamingCapsView = Em.ContainerView.create(
         'backButton',
         'label',
         'videoCapabilitiesCodeEditor',
+        'appIDContainerView',
         'sendNotificationButton'
       ],
       backButton: SDL.Button.extend(
@@ -61,6 +62,24 @@ SDL.SendVideoStreamingCapsView = Em.ContainerView.create(
           codeEditorId: 'videoCapabilitiesCodeEditor'
         }
       ),
+      appIDContainerView: Em.ContainerView.create({
+        elementId: 'appIDContainerView',
+        classNames: 'in_app_id_container_view',
+        childViews: [
+          'appIDLabel',
+          'appIDSelect'
+        ],
+
+        appIDLabel: SDL.Label.create({
+          classNames: 'label',
+          content: 'Application ID'
+        }),
+
+        appIDSelect: Em.Select.extend({
+          elementId: 'appIDSelect',
+          classNames: 'appIDSelectView'
+        }),
+      }),
       sendNotificationButton: SDL.Button.extend(
         {
           elementId: 'sendNotificationButton',

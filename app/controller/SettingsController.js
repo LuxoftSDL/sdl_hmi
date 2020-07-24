@@ -617,11 +617,15 @@ SDL.SettingsController = Em.Object.create(
     },
 
     sendVideoStreamingCapabilities: function() {
+      // Trigger 'change' event to force overwriting 'selection' field 
+      // with current value of selected appID. Otherwise it will be null.
+      SDL.SendVideoStreamingCapsView.appIDContainerView.appIDSelect.trigger('change');
       var systemCapability = {
         'systemCapability' : {
           'systemCapabilityType': 'VIDEO_STREAMING',
           'videoStreamingCapability': SDL.systemCapabilities.videoStreamingCapability
-        }
+        },
+        'appID': parseInt(SDL.SendVideoStreamingCapsView.appIDContainerView.appIDSelect.selection)
       };
       FFW.BasicCommunication.OnSystemCapabilityUpdated(systemCapability);
     },
@@ -630,6 +634,19 @@ SDL.SettingsController = Em.Object.create(
       SDL.SendVideoStreamingCapsView.videoCapabilitiesCodeEditor.save();
       this.showVideoStreamingCapabilities();
     },
+
+    onRegisteredAppsListUpdated: function() {
+      if(!SDL.SendVideoStreamingCapsView) {
+        return;
+      }
+
+      let appIDsArray = [];
+      for(var i = 0; i < SDL.SDLModel.data.registeredApps.length; ++i) {
+        appIDsArray.push(SDL.SDLModel.data.registeredApps[i].appID);
+      };
+
+      SDL.SendVideoStreamingCapsView.appIDContainerView.appIDSelect.set('content', appIDsArray);
+    }.observes('SDL.SDLModel.data.registeredApps.@each'),
 
     showVideoStreamingCapabilities: function() {
       let capabilities = SDL.systemCapabilities.videoStreamingCapability;
