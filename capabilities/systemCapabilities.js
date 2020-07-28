@@ -113,11 +113,21 @@ SDL.systemCapabilities =
                 diagonalScreenSize: 4
             },
             {
+                preferredResolution:
+                {
+                    resolutionWidth: 800,
+                    resolutionHeight: 380
+                },
                 hapticSpatialDataSupported: true,
                 scale: 1.5,
                 diagonalScreenSize: 5
             },
             {
+                preferredResolution:
+                {
+                    resolutionWidth: 800,
+                    resolutionHeight: 380
+                },
                 hapticSpatialDataSupported: true,
                 scale: 2,
                 diagonalScreenSize: 4
