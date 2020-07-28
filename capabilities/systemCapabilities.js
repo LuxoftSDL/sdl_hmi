@@ -38,7 +38,7 @@ SDL.systemCapabilities =
             resolutionWidth: 800,
             resolutionHeight: 480
         },
-        maxBitrate: 2147483647,
+        maxBitrate: 20000,
         supportedFormats: [
             {
                 protocol:  "RAW",
@@ -73,7 +73,8 @@ SDL.systemCapabilities =
                     resolutionHeight: 480
                 },
                 hapticSpatialDataSupported: true,
-                scale: 1
+                scale: 1,
+                diagonalScreenSize: 8
             },
             {
                 preferredResolution:
@@ -81,7 +82,8 @@ SDL.systemCapabilities =
                     resolutionWidth: 320,
                     resolutionHeight: 200
                 },
-                hapticSpatialDataSupported: false
+                hapticSpatialDataSupported: false,
+                diagonalScreenSize: 3
             },
             {
                 preferredResolution:
@@ -89,7 +91,8 @@ SDL.systemCapabilities =
                     resolutionWidth: 480,
                     resolutionHeight: 320
                 },
-                hapticSpatialDataSupported: true
+                hapticSpatialDataSupported: true,
+                diagonalScreenSize: 5
             },
             {
                 preferredResolution:
@@ -97,7 +100,8 @@ SDL.systemCapabilities =
                     resolutionWidth: 400,
                     resolutionHeight: 480
                 },
-                hapticSpatialDataSupported: true
+                hapticSpatialDataSupported: true,
+                diagonalScreenSize: 4
             },
             {
                 preferredResolution:
@@ -105,15 +109,18 @@ SDL.systemCapabilities =
                     resolutionWidth: 800,
                     resolutionHeight: 240
                 },
-                hapticSpatialDataSupported: true
+                hapticSpatialDataSupported: true,
+                diagonalScreenSize: 4
             },
             {
                 hapticSpatialDataSupported: true,
-                scale: 1.5
+                scale: 1.5,
+                diagonalScreenSize: 5
             },
             {
                 hapticSpatialDataSupported: true,
-                scale: 2
+                scale: 2,
+                diagonalScreenSize: 4
             }
         ]
     }
