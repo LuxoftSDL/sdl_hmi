@@ -36,7 +36,7 @@ SDL.systemCapabilities =
     videoStreamingCapability: {
         preferredResolution: {
             resolutionWidth: 800,
-            resolutionHeight: 480
+            resolutionHeight: 380
         },
         maxBitrate: 20000,
         supportedFormats: [
@@ -70,7 +70,7 @@ SDL.systemCapabilities =
                 preferredResolution:
                 {
                     resolutionWidth: 800,
-                    resolutionHeight: 480
+                    resolutionHeight: 380
                 },
                 hapticSpatialDataSupported: true,
                 scale: 1,
@@ -98,7 +98,7 @@ SDL.systemCapabilities =
                 preferredResolution:
                 {
                     resolutionWidth: 400,
-                    resolutionHeight: 480
+                    resolutionHeight: 380
                 },
                 hapticSpatialDataSupported: true,
                 diagonalScreenSize: 4

@@ -701,12 +701,12 @@ SDL.SDLModel = Em.Object.extend({
             
 
         var width = app_model.VideoConfigWidth
-        var height = app_model.VideoConfigHeight 
+        var height = app_model.VideoConfigHeight
         
         var view = this.get_view_width_and_height();
 
-        var marging_left = ((view.width - width) / 2) 
-        var marging_top = ((view.height - height) / 2) 
+        var marging_left = ((view.width - width) / 2)
+        var marging_top = 50
         
         SDL.SDLModel.data.naviVideo.style.setProperty("width",width + "px")
         SDL.SDLModel.data.naviVideo.style.setProperty("height",height + "px")
