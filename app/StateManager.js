@@ -490,7 +490,8 @@ var StateManager = Em.StateManager.extend(
         },
         exit: function() {
           this._super();
-          SDL.SDLModel.data.stateLimited = SDL.SDLController.model.appID;
+          SDL.SDLModel.data.stateLimited = SDL.SDLController.model ? 
+            SDL.SDLController.model.appID : null;
           SDL.SDLModel.data.set('limitedExist', false);
           SDL.SDLController.deactivateApp();
         }
