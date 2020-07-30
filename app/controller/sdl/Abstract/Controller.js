@@ -1043,6 +1043,11 @@ SDL.SDLController = Em.Object.extend(
         SDL.SDLNonMediaModel.set('currentAppId', null);
       }
       if (app.webEngineApp && app.policyAppID in SDL.SDLModel.webApplicationFramesMap) {
+        for(var key in SDL.SDLModel.webApplicationFramesMap) {
+          if(key != app.policyAppID) {
+            SDL.SDLModel.webApplicationFramesMap[key].hidden = false;
+          }
+        }
         let frame = SDL.SDLModel.webApplicationFramesMap[app.policyAppID];
         const web_engine_view = document.getElementById("webEngineView");
         if (web_engine_view) {
