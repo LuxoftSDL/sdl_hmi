@@ -1654,8 +1654,7 @@ FFW.UI = FFW.RPCObserver.create(
           'id': id,
           'result': {
             'code': resultCode, // type (enum) from SDL protocol
-            'method': method,
-            'info': info
+            'method': method            
           }
         };
         this.sendMessage(JSONMessage);
