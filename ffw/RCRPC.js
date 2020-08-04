@@ -282,33 +282,30 @@ FFW.RC = FFW.RPCObserver.create(
           {
             Em.Logger.log('FFW.' + request.method + ' Request');
 
-            if (request.params.userLocation !== null) {
-              var user_location = request.params.userLocation.grid;
-              var app = SDL.SDLController.getApplicationModel(request.params.appID);
-
-              if (!app) {
-                this.sendError(
-                  SDL.SDLModel.data.resultCode.REJECTED,
-                  request.id,
-                  request.method,
-                  "Application is not registered"
-                );
-                return;
-              }
-
-              app.userLocation = user_location;
-              SDL.RCModulesController.updateModuleSeatLocationContent();
+            const resultCode = FFW.RPCHelper.getCustomResultCode(request.params.appID, 'rcSetGlobalProperties');
+            if ('DO_NOT_RESPOND' == resultCode) {
+              Em.Logger.log('Do not respond on this request');
+              return;
             }
 
-            var JSONMessage = {
-              'jsonrpc': '2.0',
-              'id': request.id,
-              'result': {
-                'code': SDL.SDLModel.data.resultCode.SUCCESS,
-                'method': request.method
+            let info = null;
+            if (FFW.RPCHelper.isSuccessResultCode(resultCode)) {
+              if (request.params.userLocation !== null) {
+                var user_location = request.params.userLocation.grid;
+                var app = SDL.SDLController.getApplicationModel(request.params.appID);
+
+                if (app) {
+                  app.userLocation = user_location;
+                }
+
+                SDL.RCModulesController.updateModuleSeatLocationContent();
               }
-            };
-            this.client.send(JSONMessage);
+            } else {
+              info = "Erroneous response is assigned by settings";
+            }
+
+            this.sendRCResult(resultCode, request.id, request.method, info);
+            break;
           }
 
           default:
@@ -357,23 +354,28 @@ FFW.RC = FFW.RPCObserver.create(
      *            id
      * @param {String}
      *            method
+     * @param {String}
+     *            info
      */
-    sendRCResult: function(resultCode, id, method) {
+    sendRCResult: function(resultCode, id, method, info) {
       Em.Logger.log('FFW.' + method + 'Response');
-      if (resultCode === SDL.SDLModel.data.resultCode.SUCCESS) {
 
+      if (FFW.RPCHelper.isSuccessResultCode(resultCode)) {
         // send repsonse
         var JSONMessage = {
           'jsonrpc': '2.0',
           'id': id,
           'result': {
-            'code': resultCode,
+            'code': resultCode, // type (enum) from SDL protocol
             'method': method
           }
         };
         this.sendMessage(JSONMessage);
+      } else {
+        this.sendError(resultCode, id, method, info);
       }
     },
+
     GetInteriorVehicleDataConsentResponse: function(request, allowed) {
       // send repsonse
       var JSONMessage = {
