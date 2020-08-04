@@ -92,6 +92,7 @@ SDL.RPCControlConfigView = Em.ContainerView.create(
                 'addSubMenulabel',
                 'uisetGlobalPropertieslabel',
                 'ttssetGlobalPropertieslabel',
+                'rcsetGlobalPropertieslabel',
                 'uiCreateWindowLabel'
               ],
               vrAddComandlabel: SDL.Label.extend(
@@ -129,6 +130,13 @@ SDL.RPCControlConfigView = Em.ContainerView.create(
                   content: 'TTS.SetGlobalProperties'
                 }
               ),
+              rcsetGlobalPropertieslabel: SDL.Label.extend(
+                {
+                  elementId: 'rcsetGlobalPropertieslabel',
+                  classNames: 'rcsetGlobalPropertieslabel',
+                  content: 'RC.SetGlobalProperties'
+                }
+              ),
               uiCreateWindowLabel: SDL.Label.extend(
                 {
                   elementId: 'uiCreateWindowLabel',
@@ -148,6 +156,7 @@ SDL.RPCControlConfigView = Em.ContainerView.create(
                   'addSubMenuSelect',
                   'uisetGlobalPropertiesSelect',
                   'ttssetGlobalPropertiesSelect',
+                  'rcsetGlobalPropertiesSelect',
                   'uiCreateWindowSelect'
                   ],
                   vrAddComandSelect: Em.Select.extend(
@@ -188,6 +197,14 @@ SDL.RPCControlConfigView = Em.ContainerView.create(
                       classNames: 'ttssetGlobalPropertiesSelect',
                       contentBinding: 'FFW.RPCHelper.customResultCodesList',
                       valueBinding: 'FFW.RPCHelper.rpcStruct.ttsSetGlobalProperties'
+                    }
+                  ),
+                  rcsetGlobalPropertiesSelect: Em.Select.extend(
+                    {
+                      elementId: 'rcsetGlobalPropertiesSelect',
+                      classNames: 'rcsetGlobalPropertiesSelect',
+                      contentBinding: 'FFW.RPCHelper.customResultCodesList',
+                      valueBinding: 'FFW.RPCHelper.rpcStruct.rcSetGlobalProperties'
                     }
                   ),
                   uiCreateWindowSelect: Em.Select.extend(

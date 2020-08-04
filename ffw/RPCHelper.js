@@ -412,6 +412,7 @@ FFW.RPCHelper = Em.Object.create(
         AddSubmenu:'',
         uiSetGlobalProperties: '',
         ttsSetGlobalProperties: '',
+        rcSetGlobalProperties: '',
         uiCreateWindow: ''
     },
 
