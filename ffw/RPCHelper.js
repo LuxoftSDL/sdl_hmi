@@ -112,7 +112,7 @@ FFW.RPCHelper = Em.Object.create(
       }
 
       if (null === code) {
-        return 'SUCCESS';
+        return SDL.SDLModel.data.resultCode.SUCCESS;
       }
 
       if ('DO_NOT_RESPOND' == code) {
