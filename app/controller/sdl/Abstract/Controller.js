@@ -1043,11 +1043,6 @@ SDL.SDLController = Em.Object.extend(
         SDL.SDLNonMediaModel.set('currentAppId', null);
       }
       if (app.webEngineApp && app.policyAppID in SDL.SDLModel.webApplicationFramesMap) {
-        for(var key in SDL.SDLModel.webApplicationFramesMap) {
-          if(key != app.policyAppID) {
-            SDL.SDLModel.webApplicationFramesMap[key].hidden = false;
-          }
-        }
         let frame = SDL.SDLModel.webApplicationFramesMap[app.policyAppID];
         const web_engine_view = document.getElementById("webEngineView");
         if (web_engine_view) {
@@ -1098,6 +1093,10 @@ SDL.SDLController = Em.Object.extend(
         SDL.PopUp.create().appendTo('body').popupActivate(message);
       }
       SDL.InfoAppsView.showAppList();
+
+      params.applications.forEach(appRecord => {
+        SDL.SDLModel.appIDtoPolicyAppIDMapping[appRecord.appID] = appRecord.policyAppID;
+      });
     },
     /**
      * SDL Driver Distraction ON/OFF switcher
@@ -1637,6 +1636,18 @@ SDL.SDLController = Em.Object.extend(
           frames[i].style.pointerEvents = "none";
         }
       }
-    }
+    },
+
+    showWebViewApp: function(appID) {
+      for(var key in SDL.SDLModel.webApplicationFramesMap) {
+        SDL.SDLModel.webApplicationFramesMap[key].hidden = key != SDL.SDLModel.appIDtoPolicyAppIDMapping[appID];
+      }
+    },
+
+    hideWebApps: function() {
+      for(var key in SDL.SDLModel.webApplicationFramesMap) {
+        SDL.SDLModel.webApplicationFramesMap[key].hidden = true;
+      }
+    },
   }
 );
