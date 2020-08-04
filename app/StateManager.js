@@ -486,6 +486,7 @@ var StateManager = Em.StateManager.extend(
             this.model.currentAudioModel.deactivateRadio();
           }
           this.model.currentAudioModel.set('activeState', SDL.States.nextState);
+          SDL.SDLController.showWebViewApp(SDL.SDLController.model.appID);
           this._super();
         },
         exit: function() {
@@ -493,6 +494,7 @@ var StateManager = Em.StateManager.extend(
           SDL.SDLModel.data.stateLimited = SDL.SDLController.model.appID;
           SDL.SDLModel.data.set('limitedExist', false);
           SDL.SDLController.deactivateApp();
+          SDL.SDLController.hideWebApps();
         }
       }
     ),
