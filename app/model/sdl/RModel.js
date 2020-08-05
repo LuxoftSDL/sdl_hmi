@@ -61,6 +61,9 @@ SDL.RModel = SDL.SDLModel.extend({
    */
   webApplicationFramesMap: {},
 
+  /**
+   * Map of app id and corresponding policy app ids
+   */
   appIDtoPolicyAppIDMapping: {},
 
   /**

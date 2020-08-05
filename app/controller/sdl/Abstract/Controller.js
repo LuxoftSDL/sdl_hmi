@@ -1638,7 +1638,7 @@ SDL.SDLController = Em.Object.extend(
       }
     },
 
-    /*
+    /**
      * @function hideWebApps
      * @description Makes all web application view disabled
      */
@@ -1648,7 +1648,7 @@ SDL.SDLController = Em.Object.extend(
       }
     },
 
-    /*
+    /**
      * @function showWebViewApp
      * @param {Number} appID
      * @description Activates web view for application specified by appID
