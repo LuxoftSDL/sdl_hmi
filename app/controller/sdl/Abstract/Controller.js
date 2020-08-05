@@ -1638,16 +1638,25 @@ SDL.SDLController = Em.Object.extend(
       }
     },
 
-    showWebViewApp: function(appID) {
-      for(var key in SDL.SDLModel.webApplicationFramesMap) {
-        SDL.SDLModel.webApplicationFramesMap[key].hidden = key != SDL.SDLModel.appIDtoPolicyAppIDMapping[appID];
-      }
-    },
-
+    /*
+     * @function hideWebApps
+     * @description Makes all web application view disabled
+     */
     hideWebApps: function() {
       for(var key in SDL.SDLModel.webApplicationFramesMap) {
         SDL.SDLModel.webApplicationFramesMap[key].hidden = true;
       }
+    },
+
+    /*
+     * @function showWebViewApp
+     * @param {Number} appID
+     * @description Activates web view for application specified by appID
+     */
+    showWebViewApp: function(appID) {
+      this.hideWebApps();
+      let policyAppID = SDL.SDLModel.appIDtoPolicyAppIDMapping[appID];
+      SDL.SDLModel.webApplicationFramesMap[policyAppID].hidden = false;
     },
   }
 );
