@@ -489,6 +489,7 @@ var StateManager = Em.StateManager.extend(
           SDL.SDLController.onEventChanged(this.name, false);
           SDL.SDLModel.data.set('limitedExist', false);
           SDL.SDLController.hideWebApps();
+          SDL.SDLController.deactivateApp();
         }
       }
     ),
