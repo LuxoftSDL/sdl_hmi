@@ -480,12 +480,14 @@ var StateManager = Em.StateManager.extend(
         modelBinding: 'SDL.RCModulesController',
         enter: function() {
           this._super();
+          SDL.SDLController.onEventChanged('player', false);
           SDL.SDLController.onEventChanged(this.name, true);
           SDL.SDLController.showWebViewApp(SDL.SDLController.model.appID);
         },
         exit: function() {
           this._super();
           SDL.SDLController.onEventChanged(this.name, false);
+          SDL.SDLModel.data.set('limitedExist', false);
           SDL.SDLController.hideWebApps();
         }
       }
