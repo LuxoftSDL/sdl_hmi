@@ -74,14 +74,15 @@ FFW.RPCSimpleClient = Em.Object.create({
         return;
       }
 
-      var str_message = JSON.stringify(this.sendData[0]);
-      Em.Logger.log('Message to be sent: ' + str_message);
-
       if (this.socket && this.socket.readyState == this.socket.OPEN){
+        var str_message = JSON.stringify(this.sendData[0]);
+        Em.Logger.log('Message to be sent: ' + str_message);
+
         this.socket.send(str_message);
-        this.sendData.pop();
-        this.triggerMessageSend();
       }
+
+      this.sendData.pop();
+      this.triggerMessageSend();
     },
     onWSMessage: function(evt) {
       Em.Logger.log('Message received: ' + evt.data);
