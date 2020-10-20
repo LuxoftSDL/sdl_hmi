@@ -215,12 +215,15 @@ SDL.RModel = SDL.SDLModel.extend({
 
     // Remove popup and reset data if pending activation app is registered
     if (this.pendingActivationAppID == params.policyAppID) {
-      this.pendingActivationPopUp.deactivate();
-      this.set('pendingActivationPopUp', null);
-      this.set('pendingActivationAppID', null);
+      const delay_before_activation_ms = 500;
+      setTimeout(() => {
+        this.pendingActivationPopUp.deactivate();
+        this.set('pendingActivationPopUp', null);
+        this.set('pendingActivationAppID', null);
 
-      SDL.States.goToStates('info.apps');
-      SDL.SDLController.onActivateSDLApp(params);
+        SDL.States.goToStates('info.apps');
+        SDL.SDLController.onActivateSDLApp(params);
+      }, delay_before_activation_ms);
     }
   },
 
