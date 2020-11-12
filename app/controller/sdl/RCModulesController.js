@@ -306,11 +306,18 @@ SDL.RCModulesController = Em.Object.create({
           SDL.remoteControlCapabilities.remoteControlCapability['buttonCapabilities'] = SDL.defaultButtonCapabilities;
           this.fillModuleSeatLocationContent([]);
           this.fillSeatLocationCapabilities(vehicleRepresentation);
+
+          // Make it an empty arrays if vehicle seats emulation is disabled
+          SDL.SDLVehicleInfoModel.vehicleData.seatOccupancy.seatsOccupied = [];
+          SDL.SDLVehicleInfoModel.vehicleData.seatOccupancy.seatsBelted = [];
+          SDL.SDLVehicleInfoModel.vehicleData.windowStatus = [];
+
           return;
         }
 
         var seatLocationNames = [];
         var windowStatus = [];
+        var seatStatuses = [];
         const rightMostSeatIndex = SDL.VehicleModuleCoverageController.getVehicleMaxIndex(vehicleRepresentation, 'col');
         const leftMostSeatIndex = 0;
 
@@ -318,6 +325,12 @@ SDL.RCModulesController = Em.Object.create({
           var location_name =
             SDL.VehicleModuleCoverageController.getLocationName(seat_location);
           seatLocationNames.push(location_name);
+
+          var seat_status = {
+            'seatLocation': seat_location,
+            'conditionActive': false
+          };
+          seatStatuses.push(seat_status);
 
           if (vehicleRepresentation[rightMostSeatIndex].col === seat_location.col || 
               leftMostSeatIndex === seat_location.col) {
@@ -332,6 +345,13 @@ SDL.RCModulesController = Em.Object.create({
           }
         });
 
+        if (seatStatuses.length > 0) {
+          // Make condition active for driver seat only
+          seatStatuses[0].conditionActive = true;
+        }
+
+        SDL.SDLVehicleInfoModel.vehicleData.seatOccupancy.seatsOccupied = seatStatuses;
+        SDL.SDLVehicleInfoModel.vehicleData.seatOccupancy.seatsBelted = seatStatuses;
         SDL.SDLVehicleInfoModel.vehicleData.windowStatus = windowStatus;
 
         var self = this;
