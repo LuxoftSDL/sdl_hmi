@@ -332,16 +332,10 @@ SDL.SDLVehicleInfoModel = Em.Object.create(
          'width': 800,
          'height': 480
       },
-      'seatStatus':{
-        'seatLocation': true,
-        'conditionActive':true
-      },
       'seatOccupancy':{
-        'seatsOccupied'[]:true,
-        'seatsOccupied'.length <100,
-        'seatsBelted'[]:true,
-        seatsBelted.length <100
-      },
+        'seatsOccupied': [],
+        'seatsBelted': []
+      },     
       'handsOffSteering': false
       //
       // 'avgFuelEconomy': 0.1,
