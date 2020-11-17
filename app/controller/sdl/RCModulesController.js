@@ -327,8 +327,10 @@ SDL.RCModulesController = Em.Object.create({
           seatLocationNames.push(location_name);
 
           var seat_status = {
-            'seatLocation': seat_location,
-            'conditionActive': false
+            "seatLocation": {
+              "grid": seat_location
+            },
+            "conditionActive": false
           };
           seatStatuses.push(seat_status);
 
