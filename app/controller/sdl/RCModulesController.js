@@ -307,9 +307,15 @@ SDL.RCModulesController = Em.Object.create({
           this.fillModuleSeatLocationContent([]);
           this.fillSeatLocationCapabilities(vehicleRepresentation);
 
-          // Make it an empty arrays if vehicle seats emulation is disabled
-          SDL.SDLVehicleInfoModel.vehicleData.seatOccupancy.seatsOccupied = [];
-          SDL.SDLVehicleInfoModel.vehicleData.seatOccupancy.seatsBelted = [];
+          // Make it a single element arrays if vehicle seats emulation is disabled
+          var seat_status = {
+            "seatLocation": {
+              "grid": SDL.VehicleModuleCoverageController.createFullCoverage(vehicleRepresentation)
+            },
+            "conditionActive": true
+          };
+          SDL.SDLVehicleInfoModel.vehicleData.seatOccupancy.seatsOccupied = [seat_status];
+          SDL.SDLVehicleInfoModel.vehicleData.seatOccupancy.seatsBelted = [seat_status];
           SDL.SDLVehicleInfoModel.vehicleData.windowStatus = [];
 
           return;
