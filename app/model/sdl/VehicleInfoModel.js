@@ -143,7 +143,7 @@ SDL.SDLVehicleInfoModel = Em.Object.create(
       'handsOffSteering': 'VEHICLEDATA_HANDSOFFSTEERING',
       'stabilityControlsStatus': 'VEHICLEDATA_STABILITYCONTROLSSTATUS',
       'windowStatus': 'VEHICLEDATA_WINDOWSTATUS',
-      'seatStatus': 'VEHICLEDATA_SEATOCCUPANCY'
+      'seatOccupancy': 'VEHICLEDATA_SEATOCCUPANCY'
     },
     /**
      * Stored VehicleInfo Data
