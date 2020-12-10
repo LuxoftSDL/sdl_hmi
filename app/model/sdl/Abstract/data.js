@@ -1231,27 +1231,27 @@ SDL.SDLModelData = Em.Object.create(
                 "imageSupported": true,
                 "textSupported": true
               }],
-              "keyboardCapabilities":{
-                "maskInputCharactersSupported":true,
-                "supportedKeyboardLayouts":[
+              "keyboardCapabilities": {
+                "maskInputCharactersSupported": true,
+                "supportedKeyboardLayouts": [
                   "QWERTY","QWERTZ","AZERTY","NUMERIC"
                 ],
-                "configurableKeys":[
+                "configurableKeys": [
                     {
-                      "keyboardLayout":"QWERTY",
-                      "numConfigurableKeys":3
+                      "keyboardLayout": "QWERTY",
+                      "numConfigurableKeys": 3
                     },
                     {
-                      "keyboardLayout":"QWERTZ",
-                      "numConfigurableKeys":3
+                      "keyboardLayout": "QWERTZ",
+                      "numConfigurableKeys": 3
                     },
                     {
-                      "keyboardLayout":"AZERTY",
-                      "numConfigurableKeys":4
+                      "keyboardLayout": "AZERTY",
+                      "numConfigurableKeys": 4
                     },
                     {
-                      "keyboardLayout":"NUMERIC",
-                      "numConfigurableKeys":2
+                      "keyboardLayout": "NUMERIC",
+                      "numConfigurableKeys": 2
                     }
                   ]
                 },
