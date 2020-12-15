@@ -273,7 +273,7 @@ FFW.UI = FFW.RPCObserver.create(
           let info = null;
           
           if(FFW.RPCHelper.isSuccessResultCode(resultCode)){
-            SDL.SDLModel.setProperties(request.params);
+            resultCode = SDL.SDLModel.setProperties(request.params);
 
             var imageList = [];
             if(request.params.menuIcon) {

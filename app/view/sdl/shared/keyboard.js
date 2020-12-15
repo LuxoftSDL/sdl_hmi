@@ -124,7 +124,8 @@ SDL.Keyboard = SDL.SDLAbstractView.create(
             action: 'inputChanges',
             target: 'SDL.KeyboardController',
             templateName: 'icon',
-            icon: 'images/common/search.png'
+            icon: 'images/common/search.png',
+            onDown: false
           }
         ),
         input: Ember.TextField.extend(

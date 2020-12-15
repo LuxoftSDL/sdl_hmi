@@ -49,6 +49,11 @@ SDL.KeyboardController = Em.Object.create({
     showMaskButton: false,
 
     /**
+     * Array of symbols not allowed to show on keyboard UI
+     */
+    unsupportedKeyboardSymbols: [ '^' ],
+
+    /**
      * @description Closes keyboard view and cancels active interaction request
      */
     closeKeyboardView: function() {
@@ -202,12 +207,12 @@ SDL.KeyboardController = Em.Object.create({
      * changed by application
      */
     maskInputCharacters: function() {
-        if (SDL.SDLController.model == null ||
-            SDL.SDLController.model.globalProperties.keyboardProperties == null) {
-            return;
+        let value = 'DISABLE_INPUT_KEY_MASK';
+        if (SDL.SDLController.model &&
+            SDL.SDLController.model.globalProperties.keyboardProperties) {
+            value = SDL.SDLController.model.globalProperties.keyboardProperties.maskInputCharacters;
         }
 
-        const value = SDL.SDLController.model.globalProperties.keyboardProperties.maskInputCharacters;
         switch (value) {
             case 'ENABLE_INPUT_KEY_MASK': {
                 Em.Logger.log('Masking keyboard input characters');
@@ -220,6 +225,12 @@ SDL.KeyboardController = Em.Object.create({
             case 'USER_CHOICE_INPUT_KEY_MASK': {
                 Em.Logger.log('Showing user button for masking');
                 this.set('showMaskButton', true);
+                this.set('maskCharacters', SDL.SDLController.model.maskInputCharactersUserChoice);
+                if (!SDL.SDLController.model.isHmiLevelResumption) {
+                  this.sendInputKeyMaskNotification();
+                }
+
+                this.updateInputMasking();
                 break;
             }
 
@@ -246,9 +257,18 @@ SDL.KeyboardController = Em.Object.create({
         return defaultKey;
       }
 
+      if (SDL.SDLController.model.globalProperties.keyboardProperties.customizeKeys == null) {
+        return defaultKey;
+      }
+
       const keys = SDL.SDLController.model.globalProperties.keyboardProperties.customizeKeys;
       if (keys.length >= index + 1) {
-        return keys[index];
+        const customSymbol = keys[index];
+        if (this.unsupportedKeyboardSymbols.includes(customSymbol)) {
+          return defaultKey;
+        }
+
+        return customSymbol;
       }
 
       return defaultKey;
@@ -258,8 +278,21 @@ SDL.KeyboardController = Em.Object.create({
      * @description Toggles current masking property
      */
     toggleMaskingOption: function() {
-        SDL.KeyboardController.toggleProperty('maskCharacters');
-        SDL.KeyboardController.updateInputMasking();
+      SDL.KeyboardController.toggleProperty('maskCharacters');
+      SDL.SDLController.model.set('maskInputCharactersUserChoice', SDL.KeyboardController.maskCharacters);
+      SDL.KeyboardController.sendInputKeyMaskNotification();
+      SDL.KeyboardController.updateInputMasking();
+    },
+
+    /**
+     * @description Sends OnKeyboardInput notification for key masking
+     */
+    sendInputKeyMaskNotification: function() {
+      if (SDL.KeyboardController.maskCharacters) {
+        FFW.UI.OnKeyboardInput(null, 'INPUT_KEY_MASK_ENABLED');
+      } else {
+        FFW.UI.OnKeyboardInput(null, 'INPUT_KEY_MASK_DISABLED');
+      }
     },
 
     /**
@@ -267,15 +300,15 @@ SDL.KeyboardController = Em.Object.create({
      * of internal controller flags
      */
     updateInputMasking: function() {
+      if (SDL.Keyboard) {
         if (SDL.KeyboardController.maskCharacters) {
-            SDL.Keyboard.searchBar.input.type = 'password';
-            FFW.UI.OnKeyboardInput(null, 'INPUT_KEY_MASK_ENABLED');
+          SDL.Keyboard.searchBar.input.type = 'password';
         } else {
             SDL.Keyboard.searchBar.input.type = 'text';
-            FFW.UI.OnKeyboardInput(null, 'INPUT_KEY_MASK_DISABLED');
         }
 
         // To apply style updates on UI
         SDL.Keyboard.searchBar.input.rerender();
+      }
     }
 });

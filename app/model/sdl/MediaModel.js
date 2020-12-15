@@ -82,15 +82,6 @@ SDL.SDLMediaModel = SDL.ABSAppModel.extend({
     this.set('VRCommands', []);
     this.set('tbtActivate', false);
     this.set('isPlaying', true);
-    this.set('globalProperties', Em.Object.create());
-    this.set('globalProperties.helpPrompt', []);
-    this.set('globalProperties.timeoutPrompt', []);
-    this.set('globalProperties.keyboardProperties', Em.Object.create());
-    this.set('globalProperties.keyboardProperties.keyboardLayout', 'QWERTY');
-    this.set('globalProperties.keyboardProperties.limitedCharacterList', []);
-    this.set('globalProperties.keyboardProperties.maskInputCharacters', 'DISABLE_INPUT_KEY_MASK');
-    this.set('globalProperties.keyboardProperties.customizeKeys', []);
-    this.set('globalProperties.menuIcon', Em.Object.create());
 
     this.set('commandsList', {'top': []});
     this.set('softButtons', []);
@@ -99,6 +90,8 @@ SDL.SDLMediaModel = SDL.ABSAppModel.extend({
     this.set('backgroundWindows', []);
     this.set('activeWindows', []);
     this.set('unregisteringInProgress', false);
+
+    this.resetGlobalProperties();
   },
 
   /**
