@@ -342,16 +342,34 @@
 
 #settingsView .in_settings_separate_view .ccpuVersionInput {
     position: absolute;
-    left: 145px;
+    left: 190px;
     top: 115px;
-    width: 400px;
+    width: 450px;
+}
+
+#settingsView .in_settings_separate_view .hardwareVersionInput {
+    position: absolute;
+    left: 190px;
+    top: 190px;
+    width: 450px;
+}
+
+#settingsView .in_settings_separate_view .hardwareVersionInput:disabled {
+    color: gray;
+}
+
+#settingsView .in_settings_separate_view .hardwareVersionCheckBox {
+    position: absolute;
+    left: 25px;
+    top: 203px;
+    z-index: 2;
 }
 
 #settingsView .in_settings_separate_view .applyButton {
     position: absolute;
-    left: 585px;
-    top: 115px;
-    width: 75px;
+    left: 190px;
+    top: 250px;
+    width: 125px;
     text-align: center;
 }
 
@@ -361,6 +379,14 @@
     left: 10px;
     background: black;
     width: 120px;
+}
+
+#settingsView .in_settings_separate_view .label.hardwareVersionLabel {
+    position: absolute;
+    top: 185px;
+    left: 30px;
+    background: black;
+    width: 150px;
 }
 
 #settingsView .in_settings_separate_view .sendRequestButton {

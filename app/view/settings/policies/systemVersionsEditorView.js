@@ -36,6 +36,7 @@ SDL.SystemVersionsEditorView = Em.ContainerView.create(
         'backButton',
         'ccpuVersionLabel',
         'ccpuVersionInput',
+        'hardwareVersionCheckBox',
         'hardwareVersionLabel',
         'hardwareVersionInput',
         'applyButton'
@@ -72,6 +73,13 @@ SDL.SystemVersionsEditorView = Em.ContainerView.create(
           valueBinding: 'SDL.SettingsController.editedCcpuVersionValue'
         }
       ),
+      hardwareVersionCheckBox: Em.Checkbox.extend(
+        {
+          elementId: 'hardwareVersionCheckBox',
+          classNames: 'hardwareVersionCheckBox item',
+          checkedBinding: 'SDL.SettingsController.hardwareVersionEditingEnabled'
+        }
+      ),
       hardwareVersionLabel: SDL.Label.extend(
         {
           classNames: 'hardwareVersionLabel',
@@ -83,7 +91,11 @@ SDL.SystemVersionsEditorView = Em.ContainerView.create(
           elementId: 'hardwareVersionInput',
           classNames: 'hardwareVersionInput dataInput',
           placeholder: '<Type hardware version here>',
-          valueBinding: 'SDL.SettingsController.editedHardwareVersionValue'
+          valueBinding: 'SDL.SettingsController.editedHardwareVersionValue',
+          disabledBinding: 'isEditingEnabled',
+          isEditingEnabled: function() {
+            return !SDL.SettingsController.hardwareVersionEditingEnabled;
+          }.property('SDL.SettingsController.hardwareVersionEditingEnabled')
         }
       ),
       applyButton: SDL.Button.extend(

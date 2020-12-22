@@ -74,6 +74,16 @@ SDL.SettingsController = Em.Object.create(
      */
     editedCcpuVersionValue: "",
 
+    /**
+     * @description Value of hardware version displayed in user input
+     */
+    editedHardwareVersionValue: "",
+
+    /**
+     * @description Flag to enable/disable hardware version text field
+     */
+    hardwareVersionEditingEnabled: true,
+
     onState: function(event) {
       if(SDL.States.currentState.name === 'rpcconfig'){
         FFW.RPCHelper.setCurrentAppID(null);
@@ -606,10 +616,14 @@ SDL.SettingsController = Em.Object.create(
     },
 
     /**
-     * @description Saves new CCPU version value from user input
+     * @description Saves new CCPU and hardware version values from user input
      */
-    applyNewCcpuVersionValue: function() {
+    applyNewVersionValues: function() {
       SDL.SDLModel.data.ccpuVersion = this.editedCcpuVersionValue;
+      SDL.SDLModel.data.hardwareVersion = this.hardwareVersionEditingEnabled ?
+        this.editedHardwareVersionValue : null;
+
+      Em.Logger.log("New settings have been applied");
     },
 
     /**
