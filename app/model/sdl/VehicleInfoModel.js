@@ -103,8 +103,7 @@ SDL.SDLVehicleInfoModel = Em.Object.create(
       make: 'SDL',
       model: 'Generic',
       modelYear: '2019',
-      trim: 'SE',
-      systemHardwareVersion: '123.456.789 - HMI'
+      trim: 'SE'
     },
     eVehicleDataType: {
       'gps': 'VEHICLEDATA_GPS',
