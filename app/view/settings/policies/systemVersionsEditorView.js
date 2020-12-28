@@ -100,8 +100,8 @@ SDL.SystemVersionsEditorView = Em.ContainerView.create(
       ),
       applyButton: SDL.Button.extend(
         {
-          elementId: 'applyButton',
-          classNames: 'applyButton button',
+          elementId: 'systemVersionsApplyButton',
+          classNames: 'systemVersionsApplyButton button',
           text: 'Apply',
           action: 'applyNewVersionValues',
           target: 'SDL.SettingsController',

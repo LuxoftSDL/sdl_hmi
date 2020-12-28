@@ -84,6 +84,11 @@ SDL.SettingsController = Em.Object.create(
      */
     hardwareVersionEditingEnabled: true,
 
+    /**
+     * @description Map of vehicle type data displayed in user inputs
+     */
+    editedVehicleType: {},
+
     onState: function(event) {
       if(SDL.States.currentState.name === 'rpcconfig'){
         FFW.RPCHelper.setCurrentAppID(null);
@@ -623,7 +628,57 @@ SDL.SettingsController = Em.Object.create(
       SDL.SDLModel.data.hardwareVersion = this.hardwareVersionEditingEnabled ?
         this.editedHardwareVersionValue : null;
 
-      Em.Logger.log("New settings have been applied");
+      Em.Logger.log("New system version settings have been applied");
+    },
+
+    /**
+     * @description Getter for all available vehicle type data and corresponding controls
+     */
+    getVehicleTypeCheckboxes: function() {
+      return [
+        { checkbox: SDL.VehicleTypeEditorView.vehicleMakeCheckBox, property: 'make' },
+        { checkbox: SDL.VehicleTypeEditorView.vehicleModelCheckBox, property: 'model' },
+        { checkbox: SDL.VehicleTypeEditorView.vehicleYearCheckBox, property: 'modelYear' },
+        { checkbox: SDL.VehicleTypeEditorView.vehicleTrimCheckBox, property: 'trim' }
+      ];
+    },
+
+    /**
+     * @description Applies edited by user vehicle data settings to internal data
+     */
+    applyNewVehicleTypeValues: function() {
+      let setNewVehicleTypeValue = (checkbox, property) => {
+        if (checkbox.checked) {
+          SDL.SDLVehicleInfoModel.set('vehicleType.' + property, this.editedVehicleType[property]);
+        } else {
+          SDL.SDLVehicleInfoModel.set('vehicleType.' + property, null);
+        }
+      };
+
+      this.getVehicleTypeCheckboxes().forEach( (item) => {
+        setNewVehicleTypeValue(item.checkbox, item.property);
+      });
+
+      Em.Logger.log("New vehicle type have been applied");
+    },
+
+    /**
+     * @description Updated UI controls and values according to internal data values
+     * @param {Object} new_values internal data values structure
+     */
+    updateVehicleTypeValues: function(new_values) {
+      let setNewVehicleTypeValue = (checkbox, property) => {
+        if (new_values[property] !== null) {
+          this.set('editedVehicleType.' + property, new_values[property]);
+          checkbox.set('checked', true);
+        } else {
+          checkbox.set('checked', false);
+        }
+      };
+
+      this.getVehicleTypeCheckboxes().forEach( (item) => {
+        setNewVehicleTypeValue(item.checkbox, item.property);
+      });
     },
 
     /**
