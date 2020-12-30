@@ -103,8 +103,7 @@ SDL.SDLVehicleInfoModel = Em.Object.create(
       make: 'SDL',
       model: 'Generic',
       modelYear: '2019',
-      trim: 'SE',
-      systemHardwareVersion: '123.456.789 - HMI'
+      trim: 'SE'
     },
     eVehicleDataType: {
       'gps': 'VEHICLEDATA_GPS',
@@ -358,7 +357,13 @@ SDL.SDLVehicleInfoModel = Em.Object.create(
      * @type {Number}
      */
     getVehicleType: function(id) {
-      FFW.VehicleInfo.GetVehicleTypeResponse(this.vehicleType, id);
+      let data_to_send = {};
+      Object.keys(this.vehicleType).forEach((key) => {
+        if (this.vehicleType[key] !== null) {
+          data_to_send[key] = this.vehicleType[key];
+        }
+      });
+      FFW.VehicleInfo.GetVehicleTypeResponse(data_to_send, id);
     },
     /**
      * SDL VehicleInfo.GetDTCs handler fill data for response about vehicle
