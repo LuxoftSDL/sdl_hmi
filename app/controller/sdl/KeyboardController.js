@@ -213,37 +213,43 @@ SDL.KeyboardController = Em.Object.create({
             value = SDL.SDLController.model.globalProperties.keyboardProperties.maskInputCharacters;
         }
 
+        let is_mask_characters = false;
+        let is_show_mask_button = false;
+
         switch (value) {
             case 'ENABLE_INPUT_KEY_MASK': {
                 Em.Logger.log('Masking keyboard input characters');
-                this.set('maskCharacters', true);
-                this.set('showMaskButton', false);
-                this.updateInputMasking();
+                is_mask_characters = true;
+                is_show_mask_button = false;
                 break;
             }
 
             case 'USER_CHOICE_INPUT_KEY_MASK': {
                 Em.Logger.log('Showing user button for masking');
-                this.set('showMaskButton', true);
-                this.set('maskCharacters', SDL.SDLController.model.maskInputCharactersUserChoice);
-                if (!SDL.SDLController.model.isHmiLevelResumption) {
-                  this.sendInputKeyMaskNotification();
-                }
-
-                this.updateInputMasking();
+                is_show_mask_button = true;
+                is_mask_characters = SDL.SDLController.model.maskInputCharactersUserChoice;
                 break;
             }
 
             case 'DISABLE_INPUT_KEY_MASK':
             default: {
                 Em.Logger.log('Unmasking keyboard input characters');
-                this.set('maskCharacters', false);
-                this.set('showMaskButton', false);
-                this.updateInputMasking();
+                is_mask_characters = false;
+                is_show_mask_button = false;
             }
         }
+
+        const should_send_notification = this.get('maskCharacters') != is_mask_characters;
+        this.set('maskCharacters', is_mask_characters);
+        this.set('showMaskButton', is_show_mask_button);
+
+        if (should_send_notification) {
+          this.sendInputKeyMaskNotification();
+        }
+        this.updateInputMasking();
+
     }.observes(
-        'SDL.SDLController.model.globalProperties.keyboardProperties.maskInputCharacters'
+      'SDL.SDLController.model.globalProperties.keyboardProperties.maskInputCharacters'
     ),
 
     /**
@@ -288,6 +294,11 @@ SDL.KeyboardController = Em.Object.create({
      * @description Sends OnKeyboardInput notification for key masking
      */
     sendInputKeyMaskNotification: function() {
+      if (SDL.SDLController.model && SDL.SDLController.model.isHmiLevelResumption === true) {
+        Em.Logger.log("Application resumes HMI level. No need to send keyboard notification");
+        return;
+      }
+
       if (SDL.KeyboardController.maskCharacters) {
         FFW.UI.OnKeyboardInput(null, 'INPUT_KEY_MASK_ENABLED');
       } else {
