@@ -981,6 +981,10 @@ SDL.SDLModel = Em.Object.extend({
         } else {
           model.set('globalProperties.keyboardProperties.' + name, default_properties[name]);
         }
+
+        if (name === 'maskInputCharacters') {
+          SDL.KeyboardController.sendInputKeyMaskNotification();
+        }
       }
     }
 

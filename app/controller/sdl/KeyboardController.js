@@ -239,13 +239,9 @@ SDL.KeyboardController = Em.Object.create({
             }
         }
 
-        const should_send_notification = this.get('maskCharacters') != is_mask_characters;
         this.set('maskCharacters', is_mask_characters);
         this.set('showMaskButton', is_show_mask_button);
 
-        if (should_send_notification) {
-          this.sendInputKeyMaskNotification();
-        }
         this.updateInputMasking();
 
     }.observes(

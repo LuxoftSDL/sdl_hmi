@@ -547,11 +547,7 @@ SDL.ABSAppModel = Em.Object.extend(
      */
     finishHmiLevelResumption: function() {
       this.set('isHmiLevelResumption', false);
-
-      if (this.globalProperties.keyboardProperties.maskInputCharacters == 'USER_CHOICE_INPUT_KEY_MASK') {
-        // To trigger notification sending after app is activated and masking button is active
-        SDL.KeyboardController.maskInputCharacters();
-      }
+      SDL.KeyboardController.sendInputKeyMaskNotification();
     },
     /**
      * Add command to list
