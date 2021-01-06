@@ -983,6 +983,7 @@ SDL.SDLModel = Em.Object.extend({
         }
 
         if (!model.isHmiLevelResumption && name === 'maskInputCharacters') {
+          SDL.KeyboardController.maskInputCharacters();
           SDL.KeyboardController.sendInputKeyMaskNotification();
         }
       }
