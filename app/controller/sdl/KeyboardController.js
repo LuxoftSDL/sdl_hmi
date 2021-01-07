@@ -282,16 +282,29 @@ SDL.KeyboardController = Em.Object.create({
     toggleMaskingOption: function() {
       SDL.KeyboardController.toggleProperty('maskCharacters');
       SDL.SDLController.model.set('maskInputCharactersUserChoice', SDL.KeyboardController.maskCharacters);
-      SDL.KeyboardController.sendInputKeyMaskNotification();
+      if (SDL.SDLController.model) {
+        SDL.KeyboardController.sendInputKeyMaskNotification(SDL.SDLController.model.appID);
+      }
       SDL.KeyboardController.updateInputMasking();
     },
 
     /**
      * @description Sends OnKeyboardInput notification for key masking
+     * @param {Integer} appID id of application model
      */
-    sendInputKeyMaskNotification: function() {
-      if (SDL.SDLController.model && SDL.SDLController.model.isHmiLevelResumption === true) {
-        Em.Logger.log("Application resumes HMI level. No need to send keyboard notification");
+    sendInputKeyMaskNotification: function(appID) {
+      if (SDL.SDLController.model == null) {
+        Em.Logger.log("No currently active apps. No need to send notification");
+        return;
+      }
+
+      if (SDL.SDLController.model.appID != appID) {
+        Em.Logger.log("Properties change from inactive app. No need to send notification");
+        return;
+      }
+
+      if (SDL.SDLController.model.isHmiLevelResumption === true) {
+        Em.Logger.log("Application resumes HMI level. No need to send notification");
         return;
       }
 

@@ -522,6 +522,8 @@ SDL.ABSAppModel = Em.Object.extend(
       for (const property in default_keyboard) {
         this.set('globalProperties.keyboardProperties.' + property, default_keyboard[property]);
       }
+
+      this.set('maskInputCharactersUserChoice', true);
     },
     /**
      * @description Gets app default keyboard global properties
@@ -547,7 +549,7 @@ SDL.ABSAppModel = Em.Object.extend(
      */
     finishHmiLevelResumption: function() {
       this.set('isHmiLevelResumption', false);
-      SDL.KeyboardController.sendInputKeyMaskNotification();
+      SDL.KeyboardController.sendInputKeyMaskNotification(this.appID);
     },
     /**
      * Add command to list
