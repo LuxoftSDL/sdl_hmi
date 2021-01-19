@@ -165,7 +165,7 @@ FFW.UI = FFW.RPCObserver.create(
           case 'UI.Alert':
           {
             if (SDL.SDLModel.onUIAlert(request.params, request.id)) {
-              SDL.SDLController.onSystemContextChange(request.params.appID);
+              SDL.SDLController.onSystemContextChange(app.appID, widget.windowID);
             }
             SDL.SDLModel.data.registeredApps.forEach(app => {
               app.activeWindows.forEach(widget => {
@@ -177,7 +177,7 @@ FFW.UI = FFW.RPCObserver.create(
           case 'UI.SubtleAlert':
           {
             if (SDL.SDLModel.onUISubtleAlert(request.params, request.id)) {
-              SDL.SDLController.onSystemContextChange(request.params.appID);
+              SDL.SDLController.onSystemContextChange(app.appID, widget.windowID);
             }
             SDL.SDLModel.data.registeredApps.forEach(app => {
               app.activeWindows.forEach(widget => {
