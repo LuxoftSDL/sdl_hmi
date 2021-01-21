@@ -198,11 +198,19 @@ var StateManager = Em.StateManager.extend(
                 }
               }
             ),
-            ccpuEditor: Em.State.create(
+            versionsEditor: Em.State.create(
               {
                 enter: function() {
                   this._super();
                   SDL.SettingsController.set('editedCcpuVersionValue', SDL.SDLModel.data.ccpuVersion);
+                }
+              }
+            ),
+            vehicleTypeEditor: Em.State.create(
+              {
+                enter: function() {
+                  this._super();
+                  SDL.SettingsController.updateVehicleTypeValues(SDL.SDLVehicleInfoModel.vehicleType);
                 }
               }
             ),

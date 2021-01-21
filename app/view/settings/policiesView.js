@@ -87,8 +87,19 @@ SDL.PoliciesView = Em.ContainerView.create(
             type: SDL.Button,
             params: {
               action: 'onState',
-              goToState: 'policies.ccpuEditor',
+              goToState: 'policies.versionsEditor',
               text: 'Configure CCPU version',
+              target: 'SDL.SettingsController',
+              templateName: 'arrow',
+              onDown: false,
+            }
+          },
+          {
+            type: SDL.Button,
+            params: {
+              action: 'onState',
+              goToState: 'policies.vehicleTypeEditor',
+              text: 'Configure vehicle type parameters',
               target: 'SDL.SettingsController',
               templateName: 'arrow',
               onDown: false,
