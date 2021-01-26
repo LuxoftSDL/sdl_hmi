@@ -160,20 +160,6 @@ FFW.Navigation = FFW.RPCObserver.create(
     onRPCNotification: function(notification) {
       Em.Logger.log('FFW.Navigation.onRPCNotification');
       this._super();
-      if (notification.method == this.onVideoDataStreamingNotification) {
-        if (notification.params.available) {
-          SDL.SDLModel.startStream();
-        } else {
-          SDL.SDLModel.stopStream();
-        }
-      }
-      if (notification.method == this.onAudioDataStreamingNotification) {
-        if (notification.params.available) {
-          SDL.SDLModel.startAudioStream();
-        } else {
-          SDL.SDLModel.stoptAudioStream();
-        }
-      }
     },
     /**
      * handle RPC requests here
@@ -243,6 +229,11 @@ FFW.Navigation = FFW.RPCObserver.create(
             this.startAudioStreamingPopup = SDL.PopUp.create().appendTo('body').popupActivate(
               text, function(result) {
                 if (result) {
+                  SDL.SDLController.getApplicationModel(
+                    request.params.appID
+                  ).navigationAudioStream = request.params.url;
+                  SDL.SDLModel.startAudioStream();
+
                   FFW.Navigation.sendNavigationResult(
                     SDL.SDLModel.data.resultCode.SUCCESS,
                     request.id,
@@ -258,9 +249,6 @@ FFW.Navigation = FFW.RPCObserver.create(
                 }
               }
             );
-            SDL.SDLController.getApplicationModel(
-              request.params.appID
-            ).navigationAudioStream = request.params.url;
             break;
           }
           case 'Navigation.StopAudioStream':
@@ -268,6 +256,8 @@ FFW.Navigation = FFW.RPCObserver.create(
             SDL.SDLController.getApplicationModel(
               request.params.appID
             ).navigationAudioStream = null;
+            SDL.SDLModel.stoptAudioStream();
+
             if (this.startAudioStreamingPopup && this.startAudioStreamingPopup.active) {
               this.startAudioStreamingPopup.deactivate();
               this.set('startAudioStreamingPopup', null);
@@ -340,6 +330,7 @@ FFW.Navigation = FFW.RPCObserver.create(
                 if (result) {
                   SDL.SDLController.getApplicationModel(request.params.appID)
                     .set('navigationStream', request.params.url);
+                  SDL.SDLModel.startStream();
                   FFW.Navigation.sendNavigationResult(
                     SDL.SDLModel.data.resultCode.SUCCESS,
                     request.id,
@@ -355,9 +346,6 @@ FFW.Navigation = FFW.RPCObserver.create(
                 }
               }
             );
-            SDL.SDLController.getApplicationModel(
-              request.params.appID
-            ).navigationStream = request.params.url;
 
             break;
           }
@@ -366,6 +354,7 @@ FFW.Navigation = FFW.RPCObserver.create(
             SDL.SDLController.getApplicationModel(
               request.params.appID
             ).navigationStream = null;
+            SDL.SDLModel.stopStream();
             if (this.startVideoStreamingPopup && this.startVideoStreamingPopup.active) {
               this.startVideoStreamingPopup.deactivate();
               this.set('startVideoStreamingPopup', null);
