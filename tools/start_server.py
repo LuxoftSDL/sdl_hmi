@@ -75,7 +75,7 @@ class StreamingProcessHolder:
 			return StreamingProcessHolder.waitForInput(StreamingProcessHolder.videoStream)
 
 		if streaming_type == 'audio':
-			StreamingProcessHolder.audioStream = ffmpeg.input(url).output(stream_endpoint, acodec="raw", format="pcm", listen=1, multiple_requests=1).run_async(pipe_stderr=True)
+			StreamingProcessHolder.audioStream = ffmpeg.input(url, ar='16000', ac='1', f='s16le').output(stream_endpoint, format="wav", listen=1, multiple_requests=1).run_async(pipe_stderr=True)
 			return StreamingProcessHolder.waitForInput(StreamingProcessHolder.audioStream)
 
 	def terminateStreaming(stream_process):
