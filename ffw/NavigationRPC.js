@@ -159,6 +159,15 @@ FFW.Navigation = FFW.RPCObserver.create(
      */
     onRPCNotification: function(notification) {
       Em.Logger.log('FFW.Navigation.onRPCNotification');
+      switch (notification.method) {
+        case 'Navigation.OnAudioDataStreaming':
+        {
+          if (notification.params.available === true) {
+            SDL.SDLModel.startAudioStream();
+          }
+          break;
+        }
+      }
       this._super();
     },
     /**
@@ -232,7 +241,6 @@ FFW.Navigation = FFW.RPCObserver.create(
                   SDL.SDLController.getApplicationModel(
                     request.params.appID
                   ).navigationAudioStream = request.params.url;
-                  SDL.SDLModel.startAudioStream();
 
                   FFW.Navigation.sendNavigationResult(
                     SDL.SDLModel.data.resultCode.SUCCESS,
@@ -256,7 +264,7 @@ FFW.Navigation = FFW.RPCObserver.create(
             SDL.SDLController.getApplicationModel(
               request.params.appID
             ).navigationAudioStream = null;
-            SDL.SDLModel.stoptAudioStream();
+            SDL.SDLModel.stopAudioStream();
 
             if (this.startAudioStreamingPopup && this.startAudioStreamingPopup.active) {
               this.startAudioStreamingPopup.deactivate();

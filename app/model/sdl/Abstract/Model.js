@@ -658,7 +658,7 @@ SDL.SDLModel = Em.Object.extend({
    *
    * @param {Number}
    */
-  stoptAudioStream: function() {
+  stopAudioStream: function() {
 
     var appID = null;
 
