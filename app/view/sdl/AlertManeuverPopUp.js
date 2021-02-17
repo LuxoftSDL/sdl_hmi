@@ -263,7 +263,7 @@ SDL.AlertManeuverPopUp = Em.ContainerView.create(
       this.set('alertManeuerRequestId', message.id);
       this.addSoftButtons(message.params);
 
-      if(this.softbuttons.buttons.lengthAfterRender > 0){
+      if (this.softbuttons.buttons.lengthAfterRender > 0) {
         this.set('activate', true );
         clearTimeout( this.timer );
         this.timer = setTimeout( () => {
