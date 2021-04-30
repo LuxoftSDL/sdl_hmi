@@ -36,7 +36,8 @@ import signal
 import json
 import requests
 import zipfile
-
+import argparse
+import subprocess
 
 import ffmpeg
 import threading
@@ -48,6 +49,11 @@ FILESERVER_PORT = 8082
 HTML5_STREAMING_HOST = "http://localhost"
 HTML5_STREAMING_VIDEO_PORT = 8085
 HTML5_STREAMING_AUDIO_PORT = 8086
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--android", action="store_true",
+                    help="SDL Core is runing on android device")
+cargs = parser.parse_args()
 
 class HTTPHandler(SimpleHTTPRequestHandler):
     """This handler uses server.base_path instead of always using os.getcwd()"""
@@ -208,6 +214,11 @@ def handle_get_pt_file_content_message(params):
 	file_name = params["fileName"]
 	file_content = None
 
+	if cargs.android:
+		order="adb pull " + file_name + " /tmp"
+		pi=subprocess.call(order, shell=True)
+		file_name = "/tmp/sdl_snapshot.json"
+
 	with open(file_name) as json_file:
 		file_content = json.load(json_file)
 
@@ -236,6 +247,11 @@ def handle_save_PTU_to_file_message(params):
 			"success": True
 		}
 	}
+
+	if cargs.android:
+		filenamesd = (os.path.split(file_name)[1])
+		orderPush="adb push " + file_name + " /data/user/0/org.luxoft.sdl_core/cache/ivsu_cache/"+filenamesd
+		pi=subprocess.call(orderPush, shell=True)
 
 	return json.dumps(response_msg)
 

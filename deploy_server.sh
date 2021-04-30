@@ -31,6 +31,17 @@
 TARGET_SCRIPT="start_server.py"
 TARGET_DIR="./python_websocket"
 SOURCE_DIR="./tools"
+ARGS=""
+
+while [ "$1" ]
+do
+    case "$1" in
+    android)
+        ARGS="$ARGS --android"
+        ;;
+    esac
+    shift
+done
 
 DeployServer() {
     git submodule init
@@ -40,7 +51,7 @@ DeployServer() {
 StartServer() {
 	echo "Starting HMI signals listener..."
     cp $SOURCE_DIR/$TARGET_SCRIPT $TARGET_DIR
-    python3 $TARGET_DIR/$TARGET_SCRIPT
+    python3 $TARGET_DIR/$TARGET_SCRIPT $ARGS
     rm $TARGET_DIR/$TARGET_SCRIPT
     echo "HMI signals listener was stopped"
 }
