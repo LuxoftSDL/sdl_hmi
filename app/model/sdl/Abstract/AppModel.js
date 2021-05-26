@@ -696,6 +696,12 @@ SDL.ABSAppModel = Em.Object.extend(
                 'commandID', commandID
               )
             );
+            if(this.get('commandsList.' + i).length == 0) {
+                 delete(this.commandsList[i]);
+                 SDL.SDLController.onDeleteSubMenu(i);
+                 SDL.OptionsView.commands.refreshItems();
+            }
+
             SDL.SDLModel.deleteCommandResponse(
               SDL.SDLModel.data.resultCode.SUCCESS, requestID
             );
@@ -832,9 +838,6 @@ SDL.ABSAppModel = Em.Object.extend(
       }
 
       if (menuID in commandsList) {
-        delete(commandsList[menuID]);
-        SDL.SDLController.onDeleteSubMenu(menuID);
-        SDL.OptionsView.commands.refreshItems();
         return SDL.SDLModel.data.resultCode.SUCCESS;
       }
 
