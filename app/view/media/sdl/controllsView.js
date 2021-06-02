@@ -49,16 +49,21 @@ SDL.SDLMediaControlls = Em.ContainerView.create(
         template: Em.Handlebars
           .compile(
             '{{#with view}}' +
-            '<div class="track-info">' +
             '<div class="device">{{SDL.SDLController.model.appInfo.title}}</div>' +
+            '<div class="track-info" id="sdlmedia">' +
             '<div class="divider_o"></div>' +
             '<div class="title textLimit" {{bindAttr style="SDL.SDLController.model.appInfo.alignment"}}>{{SDL.SDLController.model.appInfo.field1}}</div>' +
             '<div class="album textLimit" {{bindAttr style="SDL.SDLController.model.appInfo.alignment"}}>{{SDL.SDLController.model.appInfo.field2}}</div>' +
             '<div class="artist textLimit"{{bindAttr class="SDL.SDLController.model.mediaPreset:hidden"}}>{{SDL.SDLController.model.appInfo.field3}}</div>' +
             '<div class="track textLimit"{{bindAttr style="SDL.SDLController.model.appInfo.alignment"}}>{{SDL.SDLController.model.appInfo.mediaTrack}}</div>' +
             '<div class="time"{{bindAttr class="SDL.SDLController.model.mediaPreset:timeV2"}}>{{SDL.SDLController.model.appInfo.mediaClock}}</div>' +
-            '<img class="cd_logo" onerror="this.style.display=\'none\'" {{bindAttr class="SDL.SDLController.model.mediaPreset:cd_logoV2"}} {{bindAttr class="SDL.SDLController.model.mode"}} {{bindAttr class="SDL.SDLController.model.isTemplate"}}/>' +       
-            '<img class="cd_logo" onerror="this.style.display=\'none\'" {{bindAttr src="SDL.SDLController.model.appInfo.trackIcon" class="SDL.SDLController.model.mediaPreset:cd_logoV2"}} />' +       
+            '<img class="cd_logo" onerror="this.style.display=\'none\'" {{bindAttr class="SDL.SDLController.model.mediaPreset:cd_logoV2"}} {{bindAttr class="SDL.SDLController.model.mode"}} {{bindAttr class="SDL.SDLController.model.isTemplate"}}/>' +              
+            '<input type="range" min="0" max="100"' + 
+              'onchange="SDL.SDLController.seekTracking(event)" ' +
+              '{{bindAttr id="SDL.SDLController.model.seekBarStyle"}} ' +
+              '{{bindAttr disabled="SDL.SDLController.model.disabled"}} ' +
+              '{{bindAttr value="SDL.SDLController.model.valueOfSeekBar"}}/>' +       
+            '<img class="cd_logo" {{bindAttr src="SDL.SDLController.model.appInfo.trackIcon" class="SDL.SDLController.model.mediaPreset:cd_logoV2"}} />' +                
             '</div>' + '{{/with}}'
           )
       }

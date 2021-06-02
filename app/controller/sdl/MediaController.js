@@ -71,10 +71,7 @@ SDL.SDLMediaController = Em.Object.create(
     },
     /** Switching on Application */
     activateApp: function(applicationModel) {
-
-      // store active application id
       this.set('currentAppId', applicationModel.appID);
-      // set active model
       SDL.SDLController.set('model', applicationModel);
 
       let get_template_from_app_type = function() {

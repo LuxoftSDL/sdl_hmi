@@ -139,6 +139,10 @@ SDL.ABSAppModel = Em.Object.extend(
         }
     },
     /**
+     * Flag to display/hide seek bar on media screen
+     */
+    seekBar: false,
+    /**
      * mediaPlayerIndicator flag for SDL.SDLMediaControlls view
      */
     mediaPlayerIndicator: 0,
@@ -170,6 +174,18 @@ SDL.ABSAppModel = Em.Object.extend(
      * @type {Number}
      */
     appID: null,
+    /**
+     * Current value of seek bar
+     *
+     * @type {Number}
+     */
+    valueOfSeekBar: null,
+    /**
+     * Style for progress bar
+     *
+     * @type {String}
+     */
+    seekBarStyle: "",
     /**
      * Application name
      *

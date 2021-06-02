@@ -2002,6 +2002,27 @@ FFW.UI = FFW.RPCObserver.create(
       };
       this.sendMessage(JSONMessage);
     },
+
+    /**
+     * Notification method to send seek media clock timer to SDLCore
+     */
+    onSeekMediaClockTimerNotification: function(params) {
+      Em.Logger.log('onSeekMediaClockTimerNotification');
+      var JSONMessage = {
+        'jsonrpc': '2.0',
+        'method': 'UI.OnSeekMediaClockTimer',
+        'params': {
+          'seekTime': {
+            'hours': params.hrs,
+            'minutes': params.min,
+            'seconds': params.sec
+          },
+          'appID': params.appID
+        }
+      };
+      this.client.send(JSONMessage);
+    },
+
     /**
      * send notification when command was triggered
      *
