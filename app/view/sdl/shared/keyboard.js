@@ -61,7 +61,6 @@ SDL.Keyboard = SDL.SDLAbstractView.create(
         this.set('active', true);
         SDL.KeyboardController.set('target', element);
       }
-      requestID: 0,
       if (SDL.InteractionChoicesView.appID) {
         SDL.KeyboardController.set('appID', SDL.InteractionChoicesView.appID);
       } else {
@@ -69,6 +68,7 @@ SDL.Keyboard = SDL.SDLAbstractView.create(
         SDL.KeyboardController.set('appModel', SDL.SDLController.model);
       }
     },
+    requestID: 0,
     /**
      * Extend deactivate method send SUCCESS response on deactivate with current
      * slider value
