@@ -179,7 +179,7 @@ FFW.UI = FFW.RPCObserver.create(
                   }
                   
                 }
-              SDL.SDLController.onSystemContextChange(request.params.appID, request.id);
+              SDL.SDLController.onSystemContextChange(request.params.appID);
             }
             SDL.SDLModel.data.registeredApps.forEach(app => {
               app.activeWindows.forEach(widget => {
@@ -373,7 +373,7 @@ FFW.UI = FFW.RPCObserver.create(
             if (SDL.SDLModel.uiPerformInteraction(request)) {
               SDL.ResetTimeoutPopUp.expandCallbacks(function()
                {SDL.InteractionChoicesView.deactivate('TIMED_OUT')},request.method);
-              SDL.SDLController.onSystemContextChange(null, request.id);
+              SDL.SDLController.onSystemContextChange();
               SDL.SDLModel.data.registeredApps.forEach(app => {
                 app.activeWindows.forEach(widget => {
                   SDL.SDLController.onSystemContextChange(app.appID, widget.windowID);
@@ -475,7 +475,7 @@ FFW.UI = FFW.RPCObserver.create(
               SDL.ResetTimeoutPopUp.set('timeoutSeconds',
                 {'UI.Slider': request.params.timeout/1000});
               SDL.ResetTimeoutPopUp.set('timeoutString', request.params.timeout/1000);
-              SDL.SDLController.onSystemContextChange(null, request.id);
+              SDL.SDLController.onSystemContextChange();
               SDL.SDLModel.data.registeredApps.forEach(app => {
                 app.activeWindows.forEach(widget => {
                   SDL.SDLController.onSystemContextChange(app.appID, widget.windowID);
@@ -498,7 +498,7 @@ FFW.UI = FFW.RPCObserver.create(
 
               SDL.ResetTimeoutPopUp.extendResetTimeoutCallBack(SDL.ScrollableMessage.setTimer, request.method);
               SDL.ResetTimeoutPopUp.ActivatePopUp();
-              SDL.SDLController.onSystemContextChange(null, request.id);
+              SDL.SDLController.onSystemContextChange();
               SDL.SDLModel.data.registeredApps.forEach(app => {
                 app.activeWindows.forEach(widget => {
                   SDL.SDLController.onSystemContextChange(app.appID, widget.windowID);
@@ -639,7 +639,7 @@ FFW.UI = FFW.RPCObserver.create(
             } else {
               this.performAudioPassThruRequestID = request.id;
               SDL.SDLModel.UIPerformAudioPassThru(request.params);
-              SDL.SDLController.onSystemContextChange(null, request.id);
+              SDL.SDLController.onSystemContextChange();
               SDL.SDLModel.data.registeredApps.forEach(app => {
                 app.activeWindows.forEach(widget => {
                   SDL.SDLController.onSystemContextChange(app.appID, widget.windowID);
