@@ -399,6 +399,11 @@ FFW.UI = FFW.RPCObserver.create(
                 SDL.ResetTimeoutPopUp.resetTimeoutRPCs.removeObject('VR.PerformInteraction');
               }
               array['UI.PerformInteraction'] =  request.params.timeout/1000 * increase_value;
+
+              if (request.params && request.params.choiceSet == null) {
+                SDL.ResetTimeoutPopUp.resetTimeoutRPCs.removeObject('UI.PerformInteraction');
+              }
+
               SDL.ResetTimeoutPopUp.set('timeoutSeconds',array);
                 if(0 < SDL.ResetTimeoutPopUp.resetTimeoutRPCs.length) {
                   SDL.ResetTimeoutPopUp.resetTimeOutLabel();
