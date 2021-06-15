@@ -182,15 +182,11 @@ SDL.ScrollableMessage = SDL.SDLAbstractView.create(
          */
         click: function() {
           var self = this._parentView;
-          clearTimeout(this._parentView.timer);
-          FFW.BasicCommunication.OnResetTimeout(
-            this.messageRequestId, 'UI.ScrollableMessage'
-          );
-          this._parentView.timer = setTimeout(
-            function() {
-              self.deactivate();
-            }, this._parentView.timeout
-          );
+          clearTimeout(self.timer);
+          self.set('endTime', Date.now() + self.timeout);
+          self.setTimer(self.timeout);
+
+          SDL.ResetTimeoutPopUp.resetTimeout();
         }
       }
     )
