@@ -118,14 +118,13 @@ SDL.SliderView = SDL.SDLAbstractView.create(
       if (this.timeout) {
         var self = this;
         clearTimeout(this.timer);
-        FFW.BasicCommunication.OnResetTimeout(
-          this.get('sliderRequestId'), 'UI.Slider'
-        );
         this.timer = setTimeout(
           function() {
             self.deactivate(true);
           }, this.timeout
         );
+
+        SDL.ResetTimeoutPopUp.resetTimeout();
       }
     }.observes('this.adjustControl.sliderValue.value'),
     okButton: SDL.Button.extend(
