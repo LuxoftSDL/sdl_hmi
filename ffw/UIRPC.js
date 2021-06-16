@@ -493,7 +493,7 @@ FFW.UI = FFW.RPCObserver.create(
                 {'UI.ScrollableMessage': request.params.timeout/1000});
               SDL.ResetTimeoutPopUp.set('timeoutString', request.params.timeout/1000);
               SDL.ResetTimeoutPopUp.expandCallbacks(function(){
-                SDL.ScrollableMessage.deactivate(true);
+                SDL.ScrollableMessage.deactivate();
               }, request.method);
 
               SDL.ResetTimeoutPopUp.extendResetTimeoutCallBack(SDL.ScrollableMessage.setTimer, request.method);
