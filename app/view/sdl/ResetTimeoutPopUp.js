@@ -295,8 +295,17 @@ SDL.ResetTimeoutPopUp = Em.ContainerView.create({
                     timeoutExpired.push(method);
                 }
             });
+
+            // Give higher priority to TTS part of the request
+            const tts_speak_index = timeoutExpired.indexOf("TTS.Speak");
+            if (tts_speak_index >= 0) {
+                timeoutExpired.splice(tts_speak_index, 1);
+                timeoutExpired = ["TTS.Speak"].concat(timeoutExpired);
+            }
+
             timeoutExpired.forEach(function(method){
                 self.resetTimeoutRPCs.removeObject(method);
+
                 if(method != 'VR.PerformInteraction' && method != 'UI.PerformInteraction') {
                     self.callbacks[method]();
                     document.getElementById(method + 'checkBox').disabled = true;
