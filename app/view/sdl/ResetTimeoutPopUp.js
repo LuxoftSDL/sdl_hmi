@@ -166,7 +166,9 @@ SDL.ResetTimeoutPopUp = Em.ContainerView.create({
     {
         self = this;
         this.resetTimeoutRPCs.forEach(function (method) {
-            self.timeoutSeconds[method] = self.defaultTimeout;
+            if (self.timeoutSeconds[method] == undefined) {
+                self.timeoutSeconds[method] = self.defaultTimeout;
+            }            
         });
     },
 
@@ -180,10 +182,8 @@ SDL.ResetTimeoutPopUp = Em.ContainerView.create({
         }
         this.set('isVisible', true);
         this.set('active', true);
-        if(SDL.SDLController.isEmptyObject(this.timeoutSeconds)) {
-            this.setDefaultTimeout();            
-        }
 
+        this.setDefaultTimeout();            
         this.resetTimeOutLabel();
         clearInterval(this.timer);
         
