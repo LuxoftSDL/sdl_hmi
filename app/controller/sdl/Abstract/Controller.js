@@ -264,18 +264,11 @@ SDL.SDLController = Em.Object.extend(
     */
     seekTracking: function(event){
       if(event.type == 'change'){
-        SDL.SDLController.model.set('pause', true);
         var percent = event.currentTarget.value;
-        SDL.SDLController.model.set('valueOfSeekBar',percent);
         var currentTime = 0;
-        if(SDL.SDLController.model.countUp){
-          currentTime = parseInt((SDL.SDLController.model.endTime - SDL.SDLController.model.duration) * percent/100);
-        }
-        else {
-          currentTime = parseInt((SDL.SDLController.model.duration - SDL.SDLController.model.endTime) * percent/100);
-        }
+        currentTime = parseInt(SDL.SDLController.model.endTime * percent/100);
         SDL.SDLController.model.set('currTime', currentTime);
-        var number = SDL.SDLController.model.duration + SDL.SDLController.model.currTime;
+        var number = SDL.SDLController.model.currTime;
         var params = {};
         params.appID = SDL.SDLController.model.appID;
         params.hrs = parseInt(number / 3600); // hours

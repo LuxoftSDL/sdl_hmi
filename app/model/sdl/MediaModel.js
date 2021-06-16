@@ -235,7 +235,7 @@ SDL.SDLMediaModel = SDL.ABSAppModel.extend({
 
       if(this.currTime != (this.endTime - this.duration)){
 
-        position = this.duration + this.currTime;
+        position = this.currTime;
 
       } else {
         clearInterval(this.timer);
@@ -250,7 +250,7 @@ SDL.SDLMediaModel = SDL.ABSAppModel.extend({
         this.appInfo.set('mediaClock', '00:00:00');
         return;
       }
-      position = this.startTime - this.currTime;
+      position = this.currTime;
     }
 
     hrs = parseInt(position / 3600), // hours
