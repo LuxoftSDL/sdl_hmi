@@ -740,7 +740,7 @@
 }
 
 #sdl_media_presetButtons.main-preset-buttons-wraper {
-    top: 291px;
+    top: 315px;
     left: 165px;
 }
 
@@ -1072,7 +1072,7 @@
 
 #usb_logo {
     position: absolute;
-    top: 90px;
+    top: 70px;
     right: 10px;
     border: 1px solid #393939;
     border-radius: 2px;

@@ -373,7 +373,7 @@
 }
 
 #sdl_view_container .player_controllsV2 {
-    top: 241px !important;
+    top: 264px !important;
     height: 48px;
 }
 
@@ -685,7 +685,7 @@
 }
 
 #sdl_view_container .timeV2 {
-    top: 155px;
+    top: 150px;
 }
 
 #sdl_view_container .textLimit {
@@ -1921,7 +1921,7 @@
 }
 
 #sdl_view_container .title {
-    top: 70px;
+    top: 69px;
     font-size: 35px;
     left: 7px;
     width: 340px;
@@ -1929,7 +1929,7 @@
 }
 
 #sdl_view_container .album {
-    top: 107px;
+    top: 106px;
     font-size: 26px;
     left: 10px;
     width: 330px;
