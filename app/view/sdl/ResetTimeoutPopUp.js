@@ -134,7 +134,7 @@ SDL.ResetTimeoutPopUp = Em.ContainerView.create({
     },
 
     /**
-     * addCheckBox function for add Check box and label  to the popUp view
+     * addCheckBox function for add Check box and label to the popUp view
      * for reseting the timeouts and
      * sending the response if RPC more then one 
      */

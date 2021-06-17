@@ -56,11 +56,13 @@ SDL.VRHelpListView = SDL.SDLAbstractView.create(
         );
         
       }
-      document.getElementById('VR.PerformInteraction' + 'checkBox').disabled = true;
-      var element = document.getElementById('UI.PerformInteraction' + 'checkBox');
-      element.disabled = false;
-      SDL.ResetTimeoutPopUp.resetTimeoutRPCs.removeObject('VR.PerformInteraction');
       SDL.SDLController.VRMove();
+      SDL.ResetTimeoutPopUp.resetTimeoutRPCs.removeObject('VR.PerformInteraction');
+
+      if(0 == SDL.ResetTimeoutPopUp.resetTimeoutRPCs.length) {
+        SDL.ResetTimeoutPopUp.DeactivatePopUp();
+      }
+
     },
     /**
      * Clean choices caption and list before new proform
