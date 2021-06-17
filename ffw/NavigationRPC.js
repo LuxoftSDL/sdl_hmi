@@ -212,7 +212,19 @@ FFW.Navigation = FFW.RPCObserver.create(
           }
           case 'Navigation.AlertManeuver':
           {
-            SDL.AlertManeuverPopUp.AlertManeuverActive(request)
+            SDL.AlertManeuverPopUp.AlertManeuverActive(request);
+
+            if (!request.params.softButtons){
+              SDL.ResetTimeoutPopUp.extendResetTimeoutRPCs([request.method]);
+              SDL.ResetTimeoutPopUp.extendResetTimeoutCallBack(SDL.AlertManeuverPopUp.setTimerUI , request.method);
+              SDL.ResetTimeoutPopUp.setContext(request.method);
+              SDL.ResetTimeoutPopUp.expandCallbacks(function(){
+                SDL.AlertManeuverPopUp.deactivate('timeout');
+              }, request.method);
+
+              SDL.ResetTimeoutPopUp.ActivatePopUp();
+            }
+
             break;
           }
           case 'Navigation.ShowConstantTBT':

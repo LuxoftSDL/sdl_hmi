@@ -169,18 +169,26 @@ FFW.UI = FFW.RPCObserver.create(
               if(!request.params.softButtons){
                 SDL.ResetTimeoutPopUp.extendResetTimeoutRPCs([request.method]);
                 SDL.ResetTimeoutPopUp.extendResetTimeoutCallBack(SDL.AlertPopUp.setTimerUI , request.method);
+                SDL.ResetTimeoutPopUp.setContext(request.method);
                 SDL.ResetTimeoutPopUp.expandCallbacks(function(){
                   SDL.AlertPopUp.deactivate('timeout');
                 }, request.method);
-                  if(request.params.duration) {
-                    SDL.ResetTimeoutPopUp.set('timeoutSeconds',
-                    {'UI.Alert': request.params.duration/1000,
-                    'TTS.Speak': request.params.duration/1000});
-                  }
-                  
+
+                if (request.params.duration) {
+                  SDL.ResetTimeoutPopUp.set('timeoutSeconds',
+                    {
+                      'UI.Alert': request.params.duration/1000,
+                      'TTS.Speak': request.params.duration/1000
+                    }
+                  );
                 }
-              SDL.SDLController.onSystemContextChange(request.params.appID);
+
+                SDL.ResetTimeoutPopUp.ActivatePopUp();
+              }
             }
+              
+            SDL.SDLController.onSystemContextChange(request.params.appID);
+
             SDL.SDLModel.data.registeredApps.forEach(app => {
               app.activeWindows.forEach(widget => {
                 SDL.SDLController.onSystemContextChange(app.appID, widget.windowID);

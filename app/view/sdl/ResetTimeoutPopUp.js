@@ -166,7 +166,9 @@ SDL.ResetTimeoutPopUp = Em.ContainerView.create({
     {
         self = this;
         this.resetTimeoutRPCs.forEach(function (method) {
-            self.timeoutSeconds[method] = self.defaultTimeout;
+            if (self.timeoutSeconds[method] == undefined) {
+                self.timeoutSeconds[method] = self.defaultTimeout;
+            }            
         });
     },
 
@@ -180,11 +182,11 @@ SDL.ResetTimeoutPopUp = Em.ContainerView.create({
         }
         this.set('isVisible', true);
         this.set('active', true);
-        if(SDL.SDLController.isEmptyObject(this.timeoutSeconds)) {
-            this.setDefaultTimeout();
-            this.resetTimeOutLabel();
-        }
 
+        this.setDefaultTimeout();            
+        this.resetTimeOutLabel();
+        clearInterval(this.timer);
+        
         const self = this;
         this.timer = setInterval(
             function() {
@@ -293,8 +295,17 @@ SDL.ResetTimeoutPopUp = Em.ContainerView.create({
                     timeoutExpired.push(method);
                 }
             });
+
+            // Give higher priority to TTS part of the request
+            const tts_speak_index = timeoutExpired.indexOf("TTS.Speak");
+            if (tts_speak_index >= 0) {
+                timeoutExpired.splice(tts_speak_index, 1);
+                timeoutExpired = ["TTS.Speak"].concat(timeoutExpired);
+            }
+
             timeoutExpired.forEach(function(method){
                 self.resetTimeoutRPCs.removeObject(method);
+
                 if(method != 'VR.PerformInteraction' && method != 'UI.PerformInteraction') {
                     self.callbacks[method]();
                     document.getElementById(method + 'checkBox').disabled = true;
@@ -308,7 +319,7 @@ SDL.ResetTimeoutPopUp = Em.ContainerView.create({
 
         method = this.resetTimeoutRPCs[0];
 
-        if(1 == this.timeoutSeconds[method]) {
+        if(0 == this.timeoutSeconds[method]) {
             this.callbacks[method]();
             this.DeactivatePopUp();
         }
