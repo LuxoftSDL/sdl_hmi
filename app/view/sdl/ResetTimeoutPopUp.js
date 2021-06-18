@@ -319,7 +319,7 @@ SDL.ResetTimeoutPopUp = Em.ContainerView.create({
 
         method = this.resetTimeoutRPCs[0];
 
-        if(0 == this.timeoutSeconds[method]) {
+        if(1 == this.timeoutSeconds[method]) {
             this.callbacks[method]();
             this.DeactivatePopUp();
         }
