@@ -325,4 +325,17 @@ SDL.ResetTimeoutPopUp = Em.ContainerView.create({
         }
 
     }.observes('this.timeoutString'),
+
+    /*
+     * vrPerformInteractionDisableCheckBox function. deactivate checkbox for VR.PerformInteraction and activate checkbox for UI.PerformInteraction
+     * after VR.PerformInteraction is closed by any reason
+     */
+    vrPerformInteractionDisableCheckBox: function() {
+        length = this.resetTimeoutRPCs.length
+
+        if (1 < length) {
+            document.getElementById('VR.PerformInteraction' + 'checkBox').disabled = true;
+            document.getElementById('UI.PerformInteraction' + 'checkBox').disabled = false;
+        }
+    }
 });

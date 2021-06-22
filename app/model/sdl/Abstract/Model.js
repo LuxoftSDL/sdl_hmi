@@ -1529,6 +1529,7 @@ SDL.SDLModel = Em.Object.extend({
     self.timeout = setTimeout(function() {
         if (SDL.SDLModel.data.VRActive) {
           if (SDL.SDLModel.data.vrActiveRequests.vrPerformInteraction) {
+            SDL.ResetTimeoutPopUp.vrPerformInteractionDisableCheckBox()
             SDL.SDLController.vrInteractionResponse(
               SDL.SDLModel.data.resultCode['TIMED_OUT']
             );

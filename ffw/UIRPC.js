@@ -425,6 +425,7 @@ FFW.UI = FFW.RPCObserver.create(
                 this.OnKeyboardInput('', 'ENTRY_ABORTED');
               }
               if (SDL.VRPopUp.VRActive) {
+                SDL.ResetTimeoutPopUp.vrPerformInteractionDisableCheckBox()
                 SDL.SDLController.vrInteractionResponse(SDL.SDLModel.data.resultCode.ABORTED);
               }
               SDL.InteractionChoicesView.deactivate('ABORTED');
