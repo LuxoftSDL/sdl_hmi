@@ -162,6 +162,8 @@ SDL.InteractionChoicesView = SDL.SDLAbstractView.create(
       }
       if (self.timeout) {
         clearTimeout(self.timer);
+
+        self.timeout = SDL.ResetTimeoutPopUp ? SDL.ResetTimeoutPopUp.timeoutSeconds['UI.PerformInteraction'] * 1000 : self.timeout
         
         self.timer = setTimeout(
           function() {
