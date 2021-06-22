@@ -215,23 +215,21 @@ FFW.Navigation = FFW.RPCObserver.create(
           {
             SDL.AlertManeuverPopUp.AlertManeuverActive(request);
 
-            if (!request.params.softButtons){
-              SDL.ResetTimeoutPopUp.extendResetTimeoutRPCs([request.method]);
-              SDL.ResetTimeoutPopUp.extendResetTimeoutCallBack(SDL.AlertManeuverPopUp.setTimerUI , request.method);
-              SDL.ResetTimeoutPopUp.setContext(request.method);
-              SDL.ResetTimeoutPopUp.expandCallbacks(function(){
-                SDL.AlertManeuverPopUp.deactivate('timeout');
-              }, request.method);
+            SDL.ResetTimeoutPopUp.extendResetTimeoutRPCs([request.method]);
+            SDL.ResetTimeoutPopUp.extendResetTimeoutCallBack(SDL.AlertManeuverPopUp.setTimerUI , request.method);
+            SDL.ResetTimeoutPopUp.setContext(request.method);
+            SDL.ResetTimeoutPopUp.expandCallbacks(function(){
+              SDL.AlertManeuverPopUp.deactivate('timeout');
+            }, request.method);
 
-              SDL.ResetTimeoutPopUp.set('timeoutSeconds',
-                {
-                      'Navigation.AlertManeuver': SDL.AlertManeuverPopUp.timeout/1000,
-                      'TTS.Speak': SDL.AlertManeuverPopUp.ttsTimeout/1000
-                }
-              );
+            SDL.ResetTimeoutPopUp.set('timeoutSeconds',
+              {
+                    'Navigation.AlertManeuver': SDL.AlertManeuverPopUp.timeout/1000,
+                    'TTS.Speak': SDL.AlertManeuverPopUp.ttsTimeout/1000
+              }
+            );
 
-              SDL.ResetTimeoutPopUp.ActivatePopUp();
-            }
+            SDL.ResetTimeoutPopUp.ActivatePopUp();
 
             break;
           }
