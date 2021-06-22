@@ -52,7 +52,7 @@ SDL.AlertManeuverPopUp = Em.ContainerView.create(
     activate: false,
     endTime: null,
     timer: null,
-    ttsTimeout: null,
+    ttsTimeout: 5000,
     timeout: 5000,
     alertManeuerRequestId: 0,
     /**
@@ -233,10 +233,13 @@ SDL.AlertManeuverPopUp = Em.ContainerView.create(
         SDL.TTSPopUp.DeactivateTTS();
       }
 
-      clearTimeout(this.timer);
-
       const resultCode = this.iconsAreValid ?
         SDL.SDLModel.data.resultCode.SUCCESS : SDL.SDLModel.data.resultCode.WARNINGS;
+
+      if (SDL.ResetTimeoutPopUp.resetTimeoutRPCs.includes('TTS.Speak')) {
+        SDL.SDLController.TTSResponseHandler();
+        SDL.ResetTimeoutPopUp.resetTimeoutRPCs.removeObject('TTS.Speak');
+      }        
 
       FFW.Navigation.sendNavigationResult(
         resultCode,
@@ -246,6 +249,12 @@ SDL.AlertManeuverPopUp = Em.ContainerView.create(
       );
       this.set('activate', false );
       this.set('alertManeuerRequestId', 0);
+      
+      SDL.ResetTimeoutPopUp.resetTimeoutRPCs.removeObject('Navigation.AlertManeuver');      
+
+      if(0 == SDL.ResetTimeoutPopUp.resetTimeoutRPCs.length) {
+        SDL.ResetTimeoutPopUp.DeactivatePopUp();
+      }
     },
 
     AlertManeuverActive: function(message) {
@@ -258,11 +267,6 @@ SDL.AlertManeuverPopUp = Em.ContainerView.create(
       this.addSoftButtons(message.params);
 
       this.set('activate', true );
-
-      clearTimeout( this.timer );
-      this.timer = setTimeout( () => {
-        this.deactivate(message);
-      }, this.timeout);
     },
 
     /*
