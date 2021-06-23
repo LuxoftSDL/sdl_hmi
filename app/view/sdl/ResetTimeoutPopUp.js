@@ -291,7 +291,8 @@ SDL.ResetTimeoutPopUp = Em.ContainerView.create({
             self = this;
             timeoutExpired = [];
             this.resetTimeoutRPCs.forEach(function(method) {
-                if(1 == self.timeoutSeconds[method]) {
+                const TIME_OUT_EXPIRATION_SECONDS = 1;
+                if(TIME_OUT_EXPIRATION_SECONDS == self.timeoutSeconds[method]) {
                     timeoutExpired.push(method);
                 }
             });
