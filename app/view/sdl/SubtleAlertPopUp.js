@@ -244,14 +244,13 @@ SDL.SubtleAlertPopUp = Em.ContainerView.create(
         * function setTimerTTS. Sets the active timer of the view for TTS RPC
         */
         setTimerTTS: function(time){
-        var self = SDL.SubtleAlertPopUp;
-        self.set('ttsTimeout', time);
-        clearTimeout(self.ttsTimer);
-        self.ttsTimer = setTimeout(
-          function() {
+            var self = SDL.SubtleAlertPopUp;
+            self.set('ttsTimeout', time);
             clearTimeout(self.ttsTimer);
-          }, self.ttsTimeout
-        );
+            self.ttsTimer = setTimeout(
+            function() {
+                clearTimeout(self.ttsTimer);
+            }, self.ttsTimeout );
         },
   
         /*
