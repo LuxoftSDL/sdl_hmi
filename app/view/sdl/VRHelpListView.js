@@ -51,10 +51,11 @@ SDL.VRHelpListView = SDL.SDLAbstractView.create(
       this._super();
       if (SDL.SDLController.model &&
         SDL.SDLModel.data.vrActiveRequests.vrPerformInteraction) {
+        SDL.ResetTimeoutPopUp.vrPerformInteractionDisableCheckBox()
         SDL.SDLController.vrInteractionResponse(
           SDL.SDLModel.data.resultCode['ABORTED']
         );
-        
+
       }
       SDL.SDLController.VRMove();
       SDL.ResetTimeoutPopUp.resetTimeoutRPCs.removeObject('VR.PerformInteraction');
