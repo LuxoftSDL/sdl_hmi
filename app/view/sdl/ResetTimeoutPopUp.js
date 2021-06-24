@@ -288,11 +288,10 @@ SDL.ResetTimeoutPopUp = Em.ContainerView.create({
         length = this.resetTimeoutRPCs.length;
 
         if(1 < length) {
-            self = this;
             timeoutExpired = [];
-            this.resetTimeoutRPCs.forEach(function(method) {
+            this.resetTimeoutRPCs.forEach((method) => {
                 const TIME_OUT_EXPIRATION_SECONDS = 1;
-                if(TIME_OUT_EXPIRATION_SECONDS == self.timeoutSeconds[method]) {
+                if(TIME_OUT_EXPIRATION_SECONDS == this.timeoutSeconds[method]) {
                     timeoutExpired.push(method);
                 }
             });
@@ -301,14 +300,14 @@ SDL.ResetTimeoutPopUp = Em.ContainerView.create({
             const tts_speak_index = timeoutExpired.indexOf("TTS.Speak");
             if (tts_speak_index >= 0) {
                 timeoutExpired.splice(tts_speak_index, 1);
-                timeoutExpired = ["TTS.Speak"].concat(timeoutExpired);
+                timeoutExpired = ["TTS.Speak", ...timeoutExpired];
             }
 
-            timeoutExpired.forEach(function(method){
-                self.resetTimeoutRPCs.removeObject(method);
+            timeoutExpired.forEach((method) => {
+                this.resetTimeoutRPCs.removeObject(method);
 
                 if(method != 'VR.PerformInteraction' && method != 'UI.PerformInteraction') {
-                    self.callbacks[method]();
+                    this.callbacks[method]();
                     document.getElementById(method + 'checkBox').disabled = true;
                 }
             });
