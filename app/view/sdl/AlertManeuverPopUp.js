@@ -53,7 +53,8 @@ SDL.AlertManeuverPopUp = Em.ContainerView.create(
     endTime: null,
     timer: null,
     ttsTimeout: 5000,
-    timeout: 5000,
+    defaultTimeout: 5000,
+    timeout: 5000,    
     alertManeuerRequestId: 0,
     /**
      * @desc Defines whether icons paths verified successfully.
@@ -255,6 +256,8 @@ SDL.AlertManeuverPopUp = Em.ContainerView.create(
 
       if(0 == SDL.ResetTimeoutPopUp.resetTimeoutRPCs.length) {
         SDL.ResetTimeoutPopUp.DeactivatePopUp();
+        this.set('timeout', this.defaultTimeout);
+        this.set('ttsTimeout', this.defaultTimeout);
       }
     },
 
