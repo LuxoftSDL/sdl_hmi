@@ -235,11 +235,7 @@ SDL.AlertManeuverPopUp = Em.ContainerView.create(
 
       const resultCode = this.iconsAreValid ?
         SDL.SDLModel.data.resultCode.SUCCESS : SDL.SDLModel.data.resultCode.WARNINGS;
-
-      if (SDL.ResetTimeoutPopUp.resetTimeoutRPCs.includes('TTS.Speak')) {
-        SDL.SDLController.TTSResponseHandler();
-        SDL.ResetTimeoutPopUp.resetTimeoutRPCs.removeObject('TTS.Speak');
-      }        
+      
 
       FFW.Navigation.sendNavigationResult(
         resultCode,
