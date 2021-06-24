@@ -1484,7 +1484,7 @@ SDL.SDLModel = Em.Object.extend({
           SDL.SDLController.getApplicationModel(message.params.appID
           ).activeRequests.uiPerformInteraction) {
           // If UI PerformInteraction session is still active and PerformInteraction mode is MANUAL only
-          SDL.SDLModel.onPrompt(message.params.timeoutPrompt);
+          SDL.SDLModel.onPrompt(message.params.timeoutPrompt,false);
         }
 
       }, message.params.timeout - 2000
@@ -1608,8 +1608,9 @@ SDL.SDLModel = Em.Object.extend({
    * Prompt activation
    *
    * @param {Object} ttsChunks
+   * @param {Boolean} setContext
    */
-  onPrompt: function(ttsChunks) {
+  onPrompt: function(ttsChunks, setContext = true) {
 
     var message = '', files = '';
     if (ttsChunks) {
@@ -1622,7 +1623,7 @@ SDL.SDLModel = Em.Object.extend({
         }
       }
       SDL.ResetTimeoutPopUp.play(files);
-      SDL.ResetTimeoutPopUp.setContext(message);
+      if(setContext === true) SDL.ResetTimeoutPopUp.setContext(message);
     } else if(FFW.TTS.requestId){
       FFW.TTS.sendError(
        SDL.SDLModel.data.resultCode.WARNINGS,
