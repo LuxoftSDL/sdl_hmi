@@ -256,9 +256,9 @@ SDL.AlertManeuverPopUp = Em.ContainerView.create(
 
       if(0 == SDL.ResetTimeoutPopUp.resetTimeoutRPCs.length) {
         SDL.ResetTimeoutPopUp.DeactivatePopUp();
-        this.set('timeout', this.defaultTimeout);
-        this.set('ttsTimeout', this.defaultTimeout);
       }
+      this.set('timeout', this.defaultTimeout);
+      this.set('ttsTimeout', this.defaultTimeout);
     },
 
     AlertManeuverActive: function(message) {
