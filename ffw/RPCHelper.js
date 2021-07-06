@@ -24,9 +24,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+const SUBSCRIBE_BTN_METHOD_NAME = 'SubscribeButton';
+
 FFW.RPCHelper = Em.Object.create(
     {
-      
+
     /*
      * Container for handling error of RPC
      */
@@ -85,7 +87,7 @@ FFW.RPCHelper = Em.Object.create(
       }
       if(!(appID in this.appContainer)) {
         this.appContainer[appID] = SDL.deepCopy(this.defaultRpcStruct);
-        this.appContainer[appID]['SubscribeButton'] = SDL.deepCopy(this.defaultSubscribeButton);
+        this.appContainer[appID][SUBSCRIBE_BTN_METHOD_NAME] = SDL.deepCopy(this.defaultSubscribeButton);
       }
 
       if(this.appContainer[appID] === undefined ){
@@ -144,6 +146,10 @@ FFW.RPCHelper = Em.Object.create(
       return SDL.SDLModel.data.resultCode[code];
     },
 
+    getSubscribeButtonCustomResultCode: function(appID, buttonName) {
+      return this.appContainer[appID][SUBSCRIBE_BTN_METHOD_NAME][buttonName];
+    },
+
     /*
      * updateRPC function. Creates list of RPC
      */
@@ -152,7 +158,7 @@ FFW.RPCHelper = Em.Object.create(
          this.set('rpcStruct.' + key,this.appContainer[appID][key]);
       };
       for(key in this.SubscribeButton){
-        this.set('SubscribeButton.' + key, this.appContainer[appID]['SubscribeButton'][key]);
+        this.set('SubscribeButton.' + key, this.appContainer[appID][SUBSCRIBE_BTN_METHOD_NAME][key]);
       };
       this.setCurrentAppID(appID);
     },
