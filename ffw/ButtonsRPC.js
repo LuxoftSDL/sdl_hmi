@@ -179,25 +179,87 @@ FFW.Buttons = FFW.RPCObserver.create(
           break;
         }
         case 'Buttons.SubscribeButton': {
-          params = request.params;
-          appID = params.appID
-          resultCode = this.subscribeButton(appID, params.buttonName);
-          console.log("Button " + params.buttonName + " " + resultCode + " resultCode");
-          this.sendButtonsResult(resultCode, request.id, request.method);
+          try {
+              const params = request.params;
+              const appID = params.appID
+              const resultCode = this.subscribeButton(appID, params.buttonName);
+              console.log("Button " + params.buttonName + " " + resultCode + " resultCode");
+              this.sendButtonsResult(resultCode, request.id, request.method);
+          } catch (e) {
+            Em.Logger.log('Do not respond on this request');
+          }
+          break;
+        }
+        case 'Buttons.UnsubscribeButton': {
+          try {
+              const params = request.params;
+              const appID = params.appID
+              if (this.isButtonSubscribed(appID, params.buttonName)) {
+                const code = FFW.RPCHelper.getUnSubscribeButtonCustomResultCode(appID, params.buttonName);
+                console.log("Button " + params.buttonName + " " + code + " Unsubscribe");
+                this.sendButtonsResult(code, request.id, request.method);
+                if (FFW.RPCHelper.isSuccessResultCode(code)) {
+                  this.unsubscribeButton(appID, params.buttonName);
+                }
+              } else {
+                console.log("Button " + params.buttonName + " REJECTED Unsubscribe");
+                this.sendError(
+                  SDL.SDLModel.data.resultCode.REJECTED,
+                  request.id,
+                  request.method,
+                  'SDL Should not send this request more than once'
+                );
+              }
+          } catch (e) {
+            Em.Logger.log('Do not respond on this request');
+          }
           break;
         }
       }
     },
-    subscribeButton: function(appID, buttonName){
-      const code = FFW.RPCHelper.getSubscribeButtonCustomResultCode(appID, buttonName);
-      if(!FFW.RPCHelper.isSuccessResultCode(code)){
+    /**
+     * @function isButtonSubscribed
+     * @param {Number} appID
+     * @param {String} buttonName
+     * @returns {boolean}
+     * @description Check is button subscribed
+     */
+    isButtonSubscribed: function (appID, buttonName) {
+      return (appID in this.subscribedButtons)
+        && (buttonName in this.subscribedButtons[appID])
+        && (this.subscribedButtons[appID][buttonName] === true);
+    },
+    /**
+     * @function subscribeButton
+     * @param {Number} appID
+     * @param {String} buttonName
+     * @returns {number} Subscription result code
+     */
+    subscribeButton: function (appID, buttonName) {
+      try {
+        const code = FFW.RPCHelper.getSubscribeButtonCustomResultCode(appID, buttonName);
+        if (!FFW.RPCHelper.isSuccessResultCode(code)) {
+          return code;
+        }
+        if (!(appID in this.subscribedButtons)) {
+          this.subscribedButtons[appID] = {};
+        }
+        this.subscribedButtons[appID][buttonName] = true;
         return code;
+      } catch(e) {
+        throw e;
       }
-      if(!(appID in this.subscribedButtons)){
-        this.subscribedButtons[appID] = {};
+    },
+    /**
+     * @function unsubscribeButton
+     * @param {Number} appID
+     * @param {String} buttonName
+     * @description Mark the subscribed button as unsubscribed
+     */
+    unsubscribeButton: function (appID, buttonName) {
+      if (this.isButtonSubscribed(appID, buttonName)) {
+        this.subscribedButtons[appID][buttonName] = false;
       }
-      this.subscribedButtons[appID][buttonName] = true;
-      return code;
     },
     /**
      * Send response from onRPCRequest
@@ -224,7 +286,7 @@ FFW.Buttons = FFW.RPCObserver.create(
         };
         this.sendMessage(JSONMessage);
       } else {
-        this.sendError(resultCode, id, method, 'Subscription Error');
+        this.sendError(resultCode, id, method, `${method} Error`);
       }
     },
     /**
