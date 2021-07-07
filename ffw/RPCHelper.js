@@ -147,7 +147,9 @@ FFW.RPCHelper = Em.Object.create(
     },
 
     getSubscribeButtonCustomResultCode: function(appID, buttonName) {
-      return this.appContainer[appID][SUBSCRIBE_BTN_METHOD_NAME][buttonName];
+      const resultCodeAsString = this.appContainer[appID][SUBSCRIBE_BTN_METHOD_NAME][buttonName];
+      const resultCodeAsNumber = SDL.SDLModel.data.resultCode[resultCodeAsString];
+      return resultCodeAsNumber;
     },
 
     /*
