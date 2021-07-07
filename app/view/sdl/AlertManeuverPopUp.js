@@ -256,12 +256,13 @@ SDL.AlertManeuverPopUp = Em.ContainerView.create(
       this.set('alertManeuerRequestId', message.id);
       this.addSoftButtons(message.params);
 
-      this.set('activate', true );
-
-      clearTimeout( this.timer );
-      this.timer = setTimeout( () => {
-        this.deactivate(message);
-      }, this.timeout);
+      if (this.softbuttons.buttons.lengthAfterRender > 0) {
+        this.set('activate', true );
+        clearTimeout( this.timer );
+        this.timer = setTimeout( () => {
+          this.deactivate(message);
+        }, this.timeout);
+      }      
     }
   }
 );
