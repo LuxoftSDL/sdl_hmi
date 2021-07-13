@@ -167,7 +167,7 @@ FFW.Buttons = FFW.RPCObserver.create(
             'jsonrpc': '2.0',
             'id': request.id,
             'result': {
-              'capabilities': SDL.ButtonCapability,
+              'capabilities': [...SDL.ButtonCapability, ...SDL.NAVButtonCapability],
               'presetBankCapabilities': {
                 'onScreenPresetsAvailable': true
               },
