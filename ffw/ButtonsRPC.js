@@ -167,7 +167,7 @@ FFW.Buttons = FFW.RPCObserver.create(
             'jsonrpc': '2.0',
             'id': request.id,
             'result': {
-              'capabilities': SDL.ButtonCapability,
+              'capabilities': [...SDL.ButtonCapability, ...SDL.NAVButtonCapability],
               'presetBankCapabilities': {
                 'onScreenPresetsAvailable': true
               },
@@ -179,30 +179,41 @@ FFW.Buttons = FFW.RPCObserver.create(
           break;
         }
         case 'Buttons.SubscribeButton': {
-          try {
-              const params = request.params;
-              const appID = params.appID
-              const resultCode = this.subscribeButton(appID, params.buttonName);
-              console.log("Button " + params.buttonName + " " + resultCode + " resultCode");
+          const { buttonName, appID } = request.params.buttonName;
+          if(buttonName.includes("NAV_")) {
+            this.navButtonSubscriptionToggle(appID, buttonName, true);
+            const resultCode = SDL.SDLModel.data.resultCode.SUCCESS;
+            console.log("Button " + buttonName + " " + resultCode + " resultCode");
+            this.sendButtonsResult(resultCode, request.id, request.method);
+          } else {
+            try {
+              const resultCode = this.subscribeButton(appID, buttonName);
+              console.log("Button " + buttonName + " " + resultCode + " resultCode");
               this.sendButtonsResult(resultCode, request.id, request.method);
-          } catch (e) {
-            Em.Logger.log('Do not respond on this request');
+            } catch (e) {
+              Em.Logger.log('Do not respond on this request');
+            }
           }
           break;
         }
         case 'Buttons.UnsubscribeButton': {
-          try {
-              const params = request.params;
-              const appID = params.appID
-              if (this.isButtonSubscribed(appID, params.buttonName)) {
-                const code = FFW.RPCHelper.getUnSubscribeButtonCustomResultCode(appID, params.buttonName);
-                console.log("Button " + params.buttonName + " " + code + " Unsubscribe");
+          const { buttonName, appID } = request.params.buttonName;
+          if(buttonName.includes("NAV_")) {
+            this.navButtonSubscriptionToggle(appID, buttonName, false);
+            const resultCode = SDL.SDLModel.data.resultCode.SUCCESS;
+            console.log("Button " + buttonName + " " + resultCode + " resultCode");
+            this.sendButtonsResult(resultCode, request.id, request.method);
+          } else {
+            try {
+              if (this.isButtonSubscribed(appID, buttonName)) {
+                const code = FFW.RPCHelper.getUnSubscribeButtonCustomResultCode(appID, buttonName);
+                console.log("Button " + buttonName + " " + code + " Unsubscribe");
                 this.sendButtonsResult(code, request.id, request.method);
                 if (FFW.RPCHelper.isSuccessResultCode(code)) {
-                  this.unsubscribeButton(appID, params.buttonName);
+                  this.unsubscribeButton(appID, buttonName);
                 }
               } else {
-                console.log("Button " + params.buttonName + " REJECTED Unsubscribe");
+                console.log("Button " + buttonName + " REJECTED Unsubscribe");
                 this.sendError(
                   SDL.SDLModel.data.resultCode.REJECTED,
                   request.id,
@@ -210,12 +221,27 @@ FFW.Buttons = FFW.RPCObserver.create(
                   'SDL Should not send this request more than once'
                 );
               }
-          } catch (e) {
-            Em.Logger.log('Do not respond on this request');
+            } catch (e) {
+              Em.Logger.log('Do not respond on this request');
+            }
           }
           break;
         }
       }
+    },
+    /**
+     * @function navButtonSubscriptionToggle
+     * @param {Number} appID
+     * @param {String} buttonName
+     * @param {Boolean} subscribe
+     * @description Toggle navigation button subscription by app ID and button name
+     */
+    navButtonSubscriptionToggle(appID, buttonName, subscribe) {
+      const model = SDL.SDLController.getApplicationModel(appID);
+      if (!model) {
+        return;
+      }
+      model.setNavButton(buttonName, subscribe);
     },
     /**
      * @function isButtonSubscribed
