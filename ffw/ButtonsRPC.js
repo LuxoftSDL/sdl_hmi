@@ -179,7 +179,7 @@ FFW.Buttons = FFW.RPCObserver.create(
           break;
         }
         case 'Buttons.SubscribeButton': {
-          const { buttonName, appID } = request.params.buttonName;
+          const { buttonName, appID } = request.params;
           if(buttonName.includes("NAV_")) {
             this.navButtonSubscriptionToggle(appID, buttonName, true);
             const resultCode = SDL.SDLModel.data.resultCode.SUCCESS;
@@ -197,7 +197,7 @@ FFW.Buttons = FFW.RPCObserver.create(
           break;
         }
         case 'Buttons.UnsubscribeButton': {
-          const { buttonName, appID } = request.params.buttonName;
+          const { buttonName, appID } = request.params;
           if(buttonName.includes("NAV_")) {
             this.navButtonSubscriptionToggle(appID, buttonName, false);
             const resultCode = SDL.SDLModel.data.resultCode.SUCCESS;
