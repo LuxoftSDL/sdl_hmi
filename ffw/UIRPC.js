@@ -1875,6 +1875,10 @@ FFW.UI = FFW.RPCObserver.create(
       };
 
       Em.Logger.log('FFW.UI.' + method + 'Response');
+      if (SDL.ResetTimeoutPopUp.resetTimeoutRPCs.includes('TTS.Speak')) {
+        SDL.SDLController.TTSResponseHandler();
+        SDL.ResetTimeoutPopUp.resetTimeoutRPCs.removeObject('TTS.Speak');
+      }
       if (is_successful_response_format(is_successful_code)) {
         // send response
         var JSONMessage = {
