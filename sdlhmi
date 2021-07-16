@@ -1,0 +1,5 @@
+#! /usr/bin/env bash
+
+cd /usr/share/sdlhmi
+python -m SimpleHTTPServer 8000&
+chromium http://localhost:8000
