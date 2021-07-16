@@ -271,6 +271,8 @@ FFW.Buttons = FFW.RPCObserver.create(
           this.subscribedButtons[appID] = {};
         }
         this.subscribedButtons[appID][buttonName] = true;
+        const model = SDL.SDLController.getApplicationModel(appID);
+        model.set(buttonName, true);
         return code;
       } catch(e) {
         throw e;
@@ -285,6 +287,8 @@ FFW.Buttons = FFW.RPCObserver.create(
     unsubscribeButton: function (appID, buttonName) {
       if (this.isButtonSubscribed(appID, buttonName)) {
         this.subscribedButtons[appID][buttonName] = false;
+        const model = SDL.SDLController.getApplicationModel(appID);
+        model.set(buttonName, false);
       }
     },
     /**
