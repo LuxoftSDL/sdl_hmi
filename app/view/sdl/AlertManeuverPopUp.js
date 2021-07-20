@@ -301,6 +301,7 @@ SDL.AlertManeuverPopUp = Em.ContainerView.create(
       self.ttsTimer = setTimeout(
         function() {
           clearTimeout(self.ttsTimer);
+          self.set('ttsTimeout', self.defaultTimeout);
         }, self.ttsTimeout
       );
     },
