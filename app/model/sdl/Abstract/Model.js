@@ -1569,8 +1569,8 @@ SDL.SDLModel = Em.Object.extend({
    * @param {Object}
    *            message Object with parameters come from SDLCore
    */
-  uiShowKeyboard: function(element, messageRequestId) {
-      SDL.Keyboard.activate(element, messageRequestId);
+  uiShowKeyboard: function(element) {
+      SDL.Keyboard.activate(element);
     },
 
   /**
@@ -1652,7 +1652,7 @@ SDL.SDLModel = Em.Object.extend({
   TTSStopSpeaking: function() {
       //true parameter makes send error response ABORTED
       FFW.TTS.set('aborted', true);
-      SDL.TTSPopUp.DeactivateTTS();
+      SDL.SDLController.TTSResponseHandler();
     },
 
   /**
