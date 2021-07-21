@@ -31,6 +31,8 @@
  * @version 1.0
  */
 
+const RESPONSE_CORRELATION = 1000;
+
 SDL.SDLModel = Em.Object.extend({
 
   /**
@@ -1540,7 +1542,7 @@ SDL.SDLModel = Em.Object.extend({
           }
           SDL.SDLModel.data.set('VRActive', false);
         }
-      }, timer - 1000
+      }, timer - RESPONSE_CORRELATION
     );
   },
   /**
@@ -1622,6 +1624,7 @@ SDL.SDLModel = Em.Object.extend({
           files += ttsChunks[i].text + '\n';
         }
       }
+      FFW.TTS.Started();
       SDL.ResetTimeoutPopUp.play(files);
       if(setContext === true) SDL.ResetTimeoutPopUp.setContext(message);
     } else if(FFW.TTS.requestId){
